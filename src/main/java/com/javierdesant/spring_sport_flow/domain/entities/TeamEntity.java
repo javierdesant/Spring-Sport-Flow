@@ -1,4 +1,4 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
-public class TeamEntity {
+public class TeamEntity implements Participant {
 }
