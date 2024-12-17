@@ -1,5 +1,5 @@
-\c postgres;
-DROP DATABASE sportflow_db;
+-- \c postgres;
+-- DROP DATABASE sportflow_db;
 
 CREATE DATABASE sportflow_db;
 
