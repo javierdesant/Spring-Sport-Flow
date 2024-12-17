@@ -1,5 +1,5 @@
--- \c postgres;
--- drop DATABASE sportflow_db;
+\c postgres;
+DROP DATABASE sportflow_db;
 
 CREATE DATABASE sportflow_db;
 
@@ -32,21 +32,33 @@ CREATE TABLE administrators
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE statistic_categories
+CREATE TABLE categories
 (
-    category_id   INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    category_code VARCHAR(50) PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE player_statistics
+CREATE TABLE leagues
 (
-    stat_id     INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    player_id   INT NOT NULL,
-    category_id INT NOT NULL,
-    value       DECIMAL(10, 2) DEFAULT 0.0,
+    league_code VARCHAR(50) PRIMARY KEY,
+    league_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE sports
+(
+    sport_code VARCHAR(50) PRIMARY KEY,
+    sport_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE statistics
+(
+    stat_id       INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    player_id     INT         NOT NULL,
+    category_code VARCHAR(50) NOT NULL,
+    value         DECIMAL(10, 2) DEFAULT 0.0,
     FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES statistic_categories (category_id) ON DELETE CASCADE,
-    UNIQUE (player_id, category_id)
+    FOREIGN KEY (category_code) REFERENCES categories (category_code) ON DELETE CASCADE,
+    UNIQUE (player_id, category_code)
 );
 
 CREATE TABLE teams
@@ -72,10 +84,12 @@ CREATE TABLE tournaments
     tournament_name VARCHAR(150) NOT NULL UNIQUE,
     start_date      DATE         NOT NULL,
     end_date        DATE         NOT NULL,
-    league          VARCHAR(100) NOT NULL,
-    sport           VARCHAR(100) NOT NULL,
-    category_id     INT,
-    FOREIGN KEY (category_id) REFERENCES statistic_categories (category_id) ON DELETE SET NULL
+    league_code   VARCHAR(50) NOT NULL,
+    sport_code    VARCHAR(50) NOT NULL,
+    category_code VARCHAR(50) NOT NULL,
+    FOREIGN KEY (league_code) REFERENCES leagues (league_code) ON DELETE RESTRICT,
+    FOREIGN KEY (sport_code) REFERENCES sports (sport_code) ON DELETE RESTRICT,
+    FOREIGN KEY (category_code) REFERENCES categories (category_code) ON DELETE RESTRICT
 );
 
 CREATE TABLE registrations
@@ -119,10 +133,3 @@ CREATE TABLE matchup_participants
     CONSTRAINT unique_player_per_matchup UNIQUE (matchup_id, player_id),
     CONSTRAINT unique_team_per_matchup UNIQUE (matchup_id, team_id)
 );
-
-INSERT INTO statistic_categories (category_name)
-VALUES ('Points scored'),
-       ('Matches won'),
-       ('Assists made'),
-       ('Tournaments won'),
-       ('Revenue generated');
