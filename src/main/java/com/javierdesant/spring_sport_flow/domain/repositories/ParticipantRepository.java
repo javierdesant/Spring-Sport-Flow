@@ -1,4 +1,4 @@
 package com.javierdesant.spring_sport_flow.domain.repositories;
 
-public class ParticipantRepository {
+public interface ParticipantRepository {
 }
