@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity(name = "administrators")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class AdminEntity extends UserEntity {
 

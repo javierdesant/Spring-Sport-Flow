@@ -3,7 +3,9 @@ package com.javierdesant.spring_sport_flow.domain.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
 
+@Data
 @MappedSuperclass
 public abstract class BaseCodeEntity {
 

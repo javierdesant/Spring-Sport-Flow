@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity(name = "players")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class PlayerEntity extends UserEntity implements ParticipantEntity {
     @Column(length = 100, nullable = false)
