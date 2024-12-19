@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class UserEntity {
+public abstract class UserEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

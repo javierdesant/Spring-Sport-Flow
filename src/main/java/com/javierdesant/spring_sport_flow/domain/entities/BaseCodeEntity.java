@@ -5,9 +5,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @MappedSuperclass
-public abstract class BaseCodeEntity {
+public abstract class BaseCodeEntity implements Serializable {
 
     @Id
     @Column(length = 50)

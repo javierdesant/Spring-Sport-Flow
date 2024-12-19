@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity(name = "tournaments")
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Builder
-public class TournamentEntity {
+public class TournamentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

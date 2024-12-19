@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity(name = "teams")
@@ -13,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class TeamEntity {
+public class TeamEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

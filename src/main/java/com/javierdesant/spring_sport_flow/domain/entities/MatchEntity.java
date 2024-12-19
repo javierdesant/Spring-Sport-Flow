@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity(name = "matchups")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class MatchEntity {
+public class MatchEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

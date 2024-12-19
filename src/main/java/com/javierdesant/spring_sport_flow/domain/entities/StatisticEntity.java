@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity(name = "statistics")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class StatisticEntity {
+public class StatisticEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
