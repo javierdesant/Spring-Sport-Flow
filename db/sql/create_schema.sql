@@ -15,21 +15,23 @@ CREATE TABLE users
         )
 );
 
-CREATE TABLE players
-(
-    player_id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id    BIGINT          NOT NULL UNIQUE,
-    first_name VARCHAR(100) NOT NULL,
-    last_name  VARCHAR(150) NOT NULL,
-    dni        VARCHAR(15)  NOT NULL UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
-);
-
 CREATE TABLE administrators
 (
     admin_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id  BIGINT NOT NULL UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE players
+(
+    player_id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id    BIGINT       NOT NULL UNIQUE,
+    first_name VARCHAR(100) NOT NULL,
+    last_name  VARCHAR(150) NOT NULL,
+    dni        VARCHAR(15)  NOT NULL UNIQUE,
+    admin_id   BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (admin_id) REFERENCES administrators (admin_id) ON DELETE SET NULL
 );
 
 CREATE TABLE categories
@@ -53,7 +55,7 @@ CREATE TABLE sports
 CREATE TABLE statistics
 (
     stat_id       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    player_id     BIGINT         NOT NULL,
+    player_id     BIGINT      NOT NULL,
     category_code VARCHAR(50) NOT NULL,
     value         DECIMAL(10, 2) DEFAULT 0.0,
     FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
@@ -84,9 +86,9 @@ CREATE TABLE tournaments
     tournament_name VARCHAR(150) NOT NULL UNIQUE,
     start_date      DATE         NOT NULL,
     end_date        DATE         NOT NULL,
-    league_code   VARCHAR(50) NOT NULL,
-    sport_code    VARCHAR(50) NOT NULL,
-    category_code VARCHAR(50) NOT NULL,
+    league_code     VARCHAR(50)  NOT NULL,
+    sport_code      VARCHAR(50)  NOT NULL,
+    category_code   VARCHAR(50)  NOT NULL,
     FOREIGN KEY (league_code) REFERENCES leagues (league_code) ON DELETE RESTRICT,
     FOREIGN KEY (sport_code) REFERENCES sports (sport_code) ON DELETE RESTRICT,
     FOREIGN KEY (category_code) REFERENCES categories (category_code) ON DELETE RESTRICT
@@ -112,7 +114,7 @@ CREATE TABLE registrations
 CREATE TABLE matchups
 (
     matchup_id    BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    tournament_id BIGINT         NOT NULL,
+    tournament_id BIGINT      NOT NULL,
     matchup_type  VARCHAR(20) NOT NULL,
     FOREIGN KEY (tournament_id) REFERENCES tournaments (tournament_id) ON DELETE CASCADE,
     CONSTRAINT chk_matchup_type CHECK (matchup_type IN ('individual', 'team', 'free_for_all'))

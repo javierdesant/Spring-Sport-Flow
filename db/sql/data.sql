@@ -10,17 +10,17 @@ VALUES ('admin1@upm.es', 'securepass1'),
        ('player5@alumnos.upm.es', 'securepass7'),
        ('player6@alumnos.upm.es', 'securepass8');
 
-INSERT INTO players (user_id, first_name, last_name, dni)
-VALUES (3, 'John', 'Doe', '123456789A'),
-       (4, 'Jane', 'Smith', '987654321B'),
-       (5, 'Alice', 'Johnson', '876543210C'),
-       (6, 'Bob', 'Williams', '456789123D'),
-       (7, 'Charlie', 'Brown', '789123456E'),
-       (8, 'Emma', 'Davis', '321098765F');
-
 INSERT INTO administrators (user_id)
 VALUES (1),
        (2);
+
+INSERT INTO players (user_id, first_name, last_name, dni, admin_id)
+VALUES (3, 'John', 'Doe', '123456789A', 1),
+       (4, 'Jane', 'Smith', '987654321B', 2),
+       (5, 'Alice', 'Johnson', '876543210C', 1),
+       (6, 'Bob', 'Williams', '456789123D', 2),
+       (7, 'Charlie', 'Brown', '789123456E', 1),
+       (8, 'Emma', 'Davis', '321098765F', 1);
 
 INSERT INTO categories (category_code, category_name)
 VALUES ('POINTS', 'Puntos marcados'),
