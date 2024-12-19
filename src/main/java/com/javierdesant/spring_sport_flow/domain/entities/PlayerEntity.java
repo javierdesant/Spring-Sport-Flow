@@ -26,6 +26,10 @@ public class PlayerEntity extends UserEntity {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<StatisticEntity> statistics;
 
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private AdminEntity admin;
+
     @ManyToMany
     @JoinTable(
             name = "player_teams",
