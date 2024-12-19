@@ -1,5 +1,5 @@
--- \c postgres;
--- DROP DATABASE sportflow_db;
+\c postgres;
+DROP DATABASE sportflow_db;
 
 CREATE DATABASE sportflow_db;
 
@@ -7,7 +7,7 @@ CREATE DATABASE sportflow_db;
 
 CREATE TABLE users
 (
-    user_id  LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     email    VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     CONSTRAINT chk_email_valid CHECK (
@@ -17,8 +17,8 @@ CREATE TABLE users
 
 CREATE TABLE players
 (
-    player_id  LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id    LONG          NOT NULL UNIQUE,
+    player_id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id    BIGINT          NOT NULL UNIQUE,
     first_name VARCHAR(100) NOT NULL,
     last_name  VARCHAR(150) NOT NULL,
     dni        VARCHAR(15)  NOT NULL UNIQUE,
@@ -27,8 +27,8 @@ CREATE TABLE players
 
 CREATE TABLE administrators
 (
-    admin_id LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id  LONG NOT NULL UNIQUE,
+    admin_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id  BIGINT NOT NULL UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
@@ -52,8 +52,8 @@ CREATE TABLE sports
 
 CREATE TABLE statistics
 (
-    stat_id       LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    player_id     LONG         NOT NULL,
+    stat_id       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    player_id     BIGINT         NOT NULL,
     category_code VARCHAR(50) NOT NULL,
     value         DECIMAL(10, 2) DEFAULT 0.0,
     FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
@@ -63,16 +63,16 @@ CREATE TABLE statistics
 
 CREATE TABLE teams
 (
-    team_id   LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    team_id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     team_name VARCHAR(150) NOT NULL UNIQUE,
-    admin_id  LONG,
+    admin_id  BIGINT,
     FOREIGN KEY (admin_id) REFERENCES administrators (admin_id) ON DELETE SET NULL
 );
 
 CREATE TABLE player_teams
 (
-    player_id LONG NOT NULL,
-    team_id   LONG NOT NULL,
+    player_id BIGINT NOT NULL,
+    team_id   BIGINT NOT NULL,
     PRIMARY KEY (player_id, team_id),
     FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE CASCADE
@@ -80,7 +80,7 @@ CREATE TABLE player_teams
 
 CREATE TABLE tournaments
 (
-    tournament_id   LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    tournament_id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     tournament_name VARCHAR(150) NOT NULL UNIQUE,
     start_date      DATE         NOT NULL,
     end_date        DATE         NOT NULL,
@@ -94,10 +94,10 @@ CREATE TABLE tournaments
 
 CREATE TABLE registrations
 (
-    registration_id LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    tournament_id   LONG NOT NULL,
-    player_id       LONG,
-    team_id         LONG,
+    registration_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    tournament_id   BIGINT NOT NULL,
+    player_id       BIGINT,
+    team_id         BIGINT,
     FOREIGN KEY (tournament_id) REFERENCES tournaments (tournament_id) ON DELETE CASCADE,
     FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE SET NULL,
     FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE SET NULL,
@@ -111,8 +111,8 @@ CREATE TABLE registrations
 
 CREATE TABLE matchups
 (
-    matchup_id    LONG GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    tournament_id LONG         NOT NULL,
+    matchup_id    BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    tournament_id BIGINT         NOT NULL,
     matchup_type  VARCHAR(20) NOT NULL,
     FOREIGN KEY (tournament_id) REFERENCES tournaments (tournament_id) ON DELETE CASCADE,
     CONSTRAINT chk_matchup_type CHECK (matchup_type IN ('individual', 'team', 'free_for_all'))
@@ -120,9 +120,9 @@ CREATE TABLE matchups
 
 CREATE TABLE matchup_participants
 (
-    matchup_id LONG NOT NULL,
-    player_id  LONG,
-    team_id    LONG,
+    matchup_id BIGINT NOT NULL,
+    player_id  BIGINT,
+    team_id    BIGINT,
     FOREIGN KEY (matchup_id) REFERENCES matchups (matchup_id) ON DELETE CASCADE,
     FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE CASCADE,
