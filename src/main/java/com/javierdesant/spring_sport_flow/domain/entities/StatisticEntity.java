@@ -6,34 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
-@Entity(name = "tournaments")
+@Entity(name = "statistics")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class TournamentEntity {
+public class StatisticEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 150, unique = true, nullable = false)
-    private String name;
+    @Column(nullable = false)
+    private String statName;
 
     @Column(nullable = false)
-    private LocalDate startDate;
-
-    @Column(nullable = false)
-    private LocalDate endDate;
+    private Double statValue;
 
     @ManyToOne
-    @JoinColumn(name = "league_code", nullable = false)
-    private LeagueEntity league;
-
-    @ManyToOne
-    @JoinColumn(name = "sport_code", nullable = false)
-    private SportEntity sport;
+    @JoinColumn(name = "player_id", nullable = false)
+    private PlayerEntity player;
 
     @ManyToOne
     @JoinColumn(name = "category_code", nullable = false)

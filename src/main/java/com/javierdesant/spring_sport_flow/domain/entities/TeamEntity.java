@@ -1,4 +1,32 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
-public class TeamEntity implements Participant {
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Set;
+
+@Entity(name = "teams")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
+public class TeamEntity implements ParticipantEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(length = 150, unique = true, nullable = false)
+    private String teamName;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id", nullable = true)
+    private AdminEntity admin;
+
+    @ManyToMany(mappedBy = "player_teams")
+    private Set<PlayerEntity> players;
+
 }
