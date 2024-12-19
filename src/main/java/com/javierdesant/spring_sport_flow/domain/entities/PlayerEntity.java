@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PlayerEntity extends UserEntity implements ParticipantEntity {
+public class PlayerEntity extends UserEntity {
     @Column(length = 100, nullable = false)
     private String firstName;
 

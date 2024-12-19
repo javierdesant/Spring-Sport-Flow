@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class TeamEntity implements ParticipantEntity {
+public class TeamEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
