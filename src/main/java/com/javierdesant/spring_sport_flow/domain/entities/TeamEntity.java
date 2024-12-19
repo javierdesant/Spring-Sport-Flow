@@ -23,7 +23,7 @@ public class TeamEntity {
     private String teamName;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = true)
+    @JoinColumn(name = "admin_id")
     private AdminEntity admin;
 
     @ManyToMany(mappedBy = "player_teams")
