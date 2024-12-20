@@ -15,5 +15,5 @@ import java.util.Set;
 @Data
 @SuperBuilder
 public class LeagueResponse extends BaseCodeResponse {
-    private Set<TournamentEntity> tournaments;
+    private Set<Long> tournamentIds;
 }

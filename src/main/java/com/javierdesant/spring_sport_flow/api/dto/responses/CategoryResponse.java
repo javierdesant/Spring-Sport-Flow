@@ -16,6 +16,6 @@ import java.util.Set;
 @Data
 @SuperBuilder
 public class CategoryResponse extends BaseCodeResponse {
-    private Set<TournamentEntity> tournaments;
-    private Set<StatisticEntity> statistics;
+    private Set<Long> tournamentIds;
+    private Set<Long> statisticIds;
 }
