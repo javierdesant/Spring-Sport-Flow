@@ -15,6 +15,6 @@ public class StatisticResponse implements Serializable {
     private Long id;
     private String statName;
     private Double statValue;
-    private Long playerId;
-    private String categoryCode;
+    private PlayerResponse player;
+    private CategoryResponse category;
 }

@@ -13,6 +13,6 @@ import java.io.Serializable;
 @Builder
 public class MatchResponse implements Serializable {
     private Long id;
-    private Long tournamentId;
+    private TournamentResponse tournament;
     private String matchupType;
 }

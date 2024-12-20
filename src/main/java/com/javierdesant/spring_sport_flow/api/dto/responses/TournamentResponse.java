@@ -17,7 +17,7 @@ public class TournamentResponse implements Serializable {
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String leagueCode;
-    private String sportCode;
-    private String categoryCode;
+    private LeagueResponse league;
+    private SportResponse sport;
+    private CategoryResponse category;
 }

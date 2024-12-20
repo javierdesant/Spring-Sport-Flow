@@ -15,6 +15,6 @@ import java.util.Set;
 public class TeamResponse implements Serializable {
     private Long id;
     private String teamName;
-    private Long adminId;
-    private Set<Long> playerIds;
+    private AdminResponse admin;
+    private Set<PlayerResponse> players;
 }

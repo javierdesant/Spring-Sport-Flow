@@ -10,12 +10,10 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
-public class PlayerResponse extends UserResponse {
-    private Long id;
+public class PlayerResponse extends UserResponse {  // TODO: revisar
     private String firstName;
     private String lastName;
     private String dni;
-    private String email;
-    private Long adminId;
-    private Set<Long> teamIds;
+    private AdminResponse admin;
+    private Set<TeamResponse> teams;
 }
