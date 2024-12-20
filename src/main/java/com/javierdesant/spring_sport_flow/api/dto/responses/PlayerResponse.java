@@ -2,7 +2,6 @@ package com.javierdesant.spring_sport_flow.api.dto.responses;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Set;
 
 @NoArgsConstructor

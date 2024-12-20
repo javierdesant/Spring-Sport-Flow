@@ -2,8 +2,6 @@ package com.javierdesant.spring_sport_flow.api.dto.requests;
 
 import lombok.*;
 
-import java.io.Serializable;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
