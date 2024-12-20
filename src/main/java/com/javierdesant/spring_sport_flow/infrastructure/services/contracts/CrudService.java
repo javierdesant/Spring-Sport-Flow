@@ -1,4 +1,4 @@
-package com.javierdesant.spring_sport_flow.infrastructure.services;
+package com.javierdesant.spring_sport_flow.infrastructure.services.contracts;
 
 public interface CrudService<RQ, RS, ID> {
 

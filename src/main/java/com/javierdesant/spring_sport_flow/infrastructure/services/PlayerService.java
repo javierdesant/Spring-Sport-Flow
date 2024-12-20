@@ -1,10 +1,10 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.repositories.PlayerRepository;
+import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.IPlayerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
