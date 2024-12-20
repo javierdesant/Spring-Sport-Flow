@@ -75,17 +75,19 @@ public class TournamentService implements ITournamentService {
         TournamentResponse response = new TournamentResponse();
         BeanUtils.copyProperties(entity, response);
 
+
         CategoryResponse categoryResponse = new CategoryResponse();
         BeanUtils.copyProperties(entity.getCategory(), categoryResponse);
-        response.setCategory(categoryResponse);
-
         SportResponse sportResponse = new SportResponse();
         BeanUtils.copyProperties(entity.getSport(), sportResponse);
-        response.setSport(sportResponse);
-
         LeagueResponse leagueResponse = new LeagueResponse();
         BeanUtils.copyProperties(entity.getLeague(), leagueResponse);
-        response.setLeague(leagueResponse);
+
+        response.toBuilder()
+                .category(categoryResponse)
+                .sport(sportResponse)
+                .league(leagueResponse)
+                .build();
 
         return response;
     }

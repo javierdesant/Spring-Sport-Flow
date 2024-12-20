@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
+@Builder(toBuilder = true)
 public class TournamentResponse implements Serializable {
     private Long id;
     private String name;
