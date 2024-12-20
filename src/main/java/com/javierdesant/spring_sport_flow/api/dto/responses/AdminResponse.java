@@ -1,6 +1,7 @@
 package com.javierdesant.spring_sport_flow.api.dto.responses;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
@@ -8,7 +9,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@SuperBuilder
 public class AdminResponse extends UserResponse {
     private Set<Long> managedTeamIds;
 }
