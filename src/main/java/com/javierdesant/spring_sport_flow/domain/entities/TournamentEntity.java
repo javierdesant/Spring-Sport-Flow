@@ -1,5 +1,6 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
+import com.javierdesant.spring_sport_flow.utils.TimeFrame;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity(name = "tournaments")
 @NoArgsConstructor
@@ -22,11 +22,12 @@ public class TournamentEntity implements Serializable {
     @Column(length = 150, unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private LocalDate startDate;
-
-    @Column(nullable = false)
-    private LocalDate endDate;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "startDate", column = @Column(nullable = false)),
+            @AttributeOverride(name = "endDate", column = @Column(nullable = false))
+    })
+    private TimeFrame timeFrame;
 
     @ManyToOne
     @JoinColumn(name = "league_code", nullable = false)
