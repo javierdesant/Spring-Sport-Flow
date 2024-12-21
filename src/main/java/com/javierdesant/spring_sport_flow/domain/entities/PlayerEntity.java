@@ -16,6 +16,7 @@ import java.util.Set;
 @Data
 @SuperBuilder(toBuilder = true)
 public class PlayerEntity extends UserEntity {
+
     @Column(length = 100, nullable = false)
     private String firstName;
 
