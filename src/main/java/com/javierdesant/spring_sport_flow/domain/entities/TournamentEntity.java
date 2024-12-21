@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class TournamentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tournamentId;
 
     @Column(length = 150, unique = true, nullable = false)
     private String name;

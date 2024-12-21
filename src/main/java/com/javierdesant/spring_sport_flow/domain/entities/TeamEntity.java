@@ -18,7 +18,7 @@ public class TeamEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long teamId;
 
     @Column(length = 150, unique = true, nullable = false)
     private String teamName;
