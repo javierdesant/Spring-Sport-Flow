@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @Builder
 public class TeamResponse implements Serializable {
-    private Long id;
+    private Long teamId;
     private String teamName;
     private AdminResponse admin;
     private Set<PlayerResponse> players;

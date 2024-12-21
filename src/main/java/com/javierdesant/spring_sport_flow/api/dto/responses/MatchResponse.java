@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @Builder
 public class MatchResponse implements Serializable {
-    private Long id;
+    private Long matchupId;
     private TournamentResponse tournament;
     private String matchupType;
 }

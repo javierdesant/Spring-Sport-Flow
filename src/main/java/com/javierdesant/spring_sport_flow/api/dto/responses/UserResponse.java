@@ -12,6 +12,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @SuperBuilder
 public abstract class UserResponse implements Serializable {
-    private Long id;
+    private Long userId;
     private String email;
 }
