@@ -49,7 +49,7 @@ public class TournamentService implements ITournamentService {
 
         tournamentEntity = tournamentRepository.save(tournamentEntity);
 
-        log.info("Tournament saved with id: {}", tournamentEntity.getId());
+        log.info("Tournament saved with id: {}", tournamentEntity.getTournamentId());
 
         return this.EntitytoResponse(tournamentEntity);
     }
