@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Data
 @Builder(toBuilder = true)
 public class TournamentResponse implements Serializable {
-    private Long id;
-    private String name;
+    private Long tournamentId;
+    private String tournamentName;
     private LocalDate startDate;
     private LocalDate endDate;
     private LeagueResponse league;

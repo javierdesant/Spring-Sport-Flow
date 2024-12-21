@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class TournamentRequest implements Serializable {
-    private String name;
+    private String tournamentName;
     private LocalDate startDate;
     private LocalDate endDate;
     private String leagueCode;

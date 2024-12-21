@@ -40,7 +40,7 @@ public class TournamentService implements ITournamentService {
         TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
         TournamentEntity tournamentEntity = TournamentEntity.builder()
-                .name(request.getName())
+                .tournamentName(request.getTournamentName())
                 .league(league)
                 .sport(sport)
                 .category(category)

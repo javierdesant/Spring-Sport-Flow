@@ -20,7 +20,7 @@ public class TournamentEntity implements Serializable {
     private Long tournamentId;
 
     @Column(length = 150, unique = true, nullable = false)
-    private String name;
+    private String tournamentName;
 
     @Embedded
     @AttributeOverrides({
