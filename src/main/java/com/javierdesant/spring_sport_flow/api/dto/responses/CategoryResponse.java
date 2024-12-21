@@ -1,7 +1,5 @@
 package com.javierdesant.spring_sport_flow.api.dto.responses;
 
-import com.javierdesant.spring_sport_flow.domain.entities.StatisticEntity;
-import com.javierdesant.spring_sport_flow.domain.entities.TournamentEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
