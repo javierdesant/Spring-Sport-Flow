@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity(name = "tournaments")
 @NoArgsConstructor
@@ -41,4 +42,25 @@ public class TournamentEntity implements Serializable {
     @JoinColumn(name = "category_code", nullable = false)
     private CategoryEntity category;
 
+    public LocalDate getStartDate() {
+        return this.timeFrame != null ? this.timeFrame.getStartDate() : null;
+    }
+
+    public LocalDate getEndDate() {
+        return this.timeFrame != null ? this.timeFrame.getEndDate() : null;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        if (this.timeFrame == null) {
+            this.timeFrame = new TimeFrame();
+        }
+        this.timeFrame.setStartDate(startDate);
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        if (this.timeFrame == null) {
+            this.timeFrame = new TimeFrame();
+        }
+        this.timeFrame.setEndDate(endDate);
+    }
 }
