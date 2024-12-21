@@ -18,6 +18,8 @@ import com.javierdesant.spring_sport_flow.utils.TimeFrame;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,22 @@ public class TournamentService implements ITournamentService {
     private final SportRepository sportRepository;
     private final CategoryRepository categoryRepository;
 
+    private static TournamentResponse toResponse(TournamentEntity entity) {
+        TournamentResponse response = new TournamentResponse();
+        BeanUtils.copyProperties(entity, response);
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        BeanUtils.copyProperties(entity.getCategory(), categoryResponse);
+        SportResponse sportResponse = new SportResponse();
+        BeanUtils.copyProperties(entity.getSport(), sportResponse);
+        LeagueResponse leagueResponse = new LeagueResponse();
+        BeanUtils.copyProperties(entity.getLeague(), leagueResponse);
+
+        response = response.toBuilder().category(categoryResponse).sport(sportResponse).league(leagueResponse).build();
+
+        return response;
+    }
+
     @Override
     public TournamentResponse create(TournamentRequest request) {
         LeagueEntity leagueEntity = findLeagueById(request.getLeagueCode());
@@ -39,13 +57,7 @@ public class TournamentService implements ITournamentService {
 
         TimeFrame tournamentTimeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
-        TournamentEntity tournamentEntity = TournamentEntity.builder()
-                .tournamentName(request.getTournamentName())
-                .league(leagueEntity)
-                .sport(sportEntity)
-                .category(categoryEntity)
-                .timeFrame(tournamentTimeFrame)
-                .build();
+        TournamentEntity tournamentEntity = TournamentEntity.builder().tournamentName(request.getTournamentName()).league(leagueEntity).sport(sportEntity).category(categoryEntity).timeFrame(tournamentTimeFrame).build();
 
         TournamentEntity savedTournament = tournamentRepository.save(tournamentEntity);
         log.info("Tournament '{} (ID: {})' saved successfully.", savedTournament.getTournamentName(), savedTournament.getTournamentId());
@@ -54,25 +66,20 @@ public class TournamentService implements ITournamentService {
     }
 
     private LeagueEntity findLeagueById(String leagueCode) {
-        return leagueRepository.findById(leagueCode)
-                .orElseThrow();
+        return leagueRepository.findById(leagueCode).orElseThrow();
     }
 
     private SportEntity findSportById(String sportCode) {
-        return sportRepository.findById(sportCode)
-                .orElseThrow();
+        return sportRepository.findById(sportCode).orElseThrow();
     }
 
     private CategoryEntity findCategoryById(String categoryCode) {
-        return categoryRepository.findById(categoryCode)
-                .orElseThrow();
+        return categoryRepository.findById(categoryCode).orElseThrow();
     }
 
     @Override
     public TournamentResponse read(Long aLong) {
-        return tournamentRepository.findById(aLong)
-                .map(TournamentService::toResponse)
-                .orElseThrow();
+        return tournamentRepository.findById(aLong).map(TournamentService::toResponse).orElseThrow();
     }
 
     // TODO: revisar metodo:
@@ -86,10 +93,10 @@ public class TournamentService implements ITournamentService {
 
         TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
+        // TODO: improve this
         tournament = tournament.toBuilder()
                 .tournamentName(request.getTournamentName())
-                .league(league)
-                .sport(sport)
+                .league(league).sport(sport)
                 .category(category)
                 .timeFrame(timeFrame)
                 .build();
@@ -106,23 +113,9 @@ public class TournamentService implements ITournamentService {
         tournamentRepository.deleteById(aLong);
     }
 
-    private static TournamentResponse toResponse(TournamentEntity entity) {
-        TournamentResponse response = new TournamentResponse();
-        BeanUtils.copyProperties(entity, response);
-
-        CategoryResponse categoryResponse = new CategoryResponse();
-        BeanUtils.copyProperties(entity.getCategory(), categoryResponse);
-        SportResponse sportResponse = new SportResponse();
-        BeanUtils.copyProperties(entity.getSport(), sportResponse);
-        LeagueResponse leagueResponse = new LeagueResponse();
-        BeanUtils.copyProperties(entity.getLeague(), leagueResponse);
-
-        response = response.toBuilder()
-                .category(categoryResponse)
-                .sport(sportResponse)
-                .league(leagueResponse)
-                .build();
-
-        return response;
+    @Override
+    public Page<TournamentResponse> listAll(Pageable pageable) {
+        return tournamentRepository.findAll(pageable)
+                .map(TournamentService::toResponse);
     }
 }
