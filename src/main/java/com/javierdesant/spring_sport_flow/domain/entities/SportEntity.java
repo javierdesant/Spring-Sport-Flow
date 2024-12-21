@@ -15,7 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@MappedSuperclass
 public class SportEntity extends BaseCodeEntity {
 
     @OneToMany(mappedBy = "sport")

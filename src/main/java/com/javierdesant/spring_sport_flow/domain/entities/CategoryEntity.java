@@ -16,7 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@MappedSuperclass
 public class CategoryEntity extends BaseCodeEntity {
 
     @OneToMany(mappedBy = "category")
