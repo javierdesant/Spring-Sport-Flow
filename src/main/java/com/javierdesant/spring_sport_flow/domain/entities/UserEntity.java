@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class UserEntity implements Serializable {
 
     @Id

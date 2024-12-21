@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class AdminEntity extends UserEntity {
 
     @OneToMany(mappedBy = "admin")
