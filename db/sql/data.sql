@@ -92,8 +92,8 @@ VALUES ('Red Wolves', 1),
        ('Green Falcons', 1);
 
 INSERT INTO player_teams (player_id, team_id)
-VALUES (1, 1),
-       (2, 1),
+VALUES (8, 1),
+       (7, 1),
        (3, 2),
        (4, 2),
        (5, 3),
@@ -105,8 +105,8 @@ VALUES ('Fútbol UPM 2024', '2024-03-01', '2024-03-20', 'U18', 'FBL', 'POINTS'),
        ('Voleibol de Invierno', '2024-11-01', '2024-11-30', 'U14', 'VOL', 'ASSISTS');
 
 INSERT INTO registrations (tournament_id, player_id, team_id)
-VALUES (1, 1, NULL),
-       (1, 2, NULL),
+VALUES (1, 3, NULL),
+       (1, 4, NULL),
        (2, NULL, 1),
        (3, NULL, 2),
        (3, NULL, 3);
@@ -124,12 +124,15 @@ VALUES (1, 3, NULL),
        (3, NULL, 3);
 
 INSERT INTO statistics (player_id, category_code, value)
-VALUES (1, 'POINTS', 15.0),
-       (2, 'POINTS', 8.0),
-       (3, 'MATCHES', 10.0),
+VALUES (8, 'POINTS', 15.0),
+       (7, 'POINTS', 8.0),
+       (7, 'MATCHES', 10.0),
        (4, 'MATCHES', 12.0),
        (5, 'TOURNAMENTS', 5.0),
-       (6, 'ASSISTS', 30.0);
+       (6, 'ASSISTS', 30.0),
+       (3, 'MATCHES', 10.0),
+       (3, 'TOURNAMENTS', 1.0),
+       (3, 'ASSISTS', 15.0);
 
 
 
@@ -159,8 +162,8 @@ VALUES (9, 'Lucas', 'Martínez', '112233445X'),
        (15, 'Sofía', 'Torres', '112233445B');
 
 INSERT INTO player_teams (player_id, team_id)
-VALUES (7, 1),
-       (8, 1),
+VALUES (15, 1),
+       (14, 1),
        (9, 3),
        (10, 3),
        (11, 2),
@@ -168,8 +171,8 @@ VALUES (7, 1),
        (13, 1);
 
 INSERT INTO statistics (player_id, category_code, value)
-VALUES (7, 'POINTS', 20.0),
-       (8, 'MATCHES', 5.0),
+VALUES (15, 'POINTS', 20.0),
+       (14, 'MATCHES', 5.0),
        (9, 'ASSISTS', 12.0),
        (10, 'TOURNAMENTS', 3.0),
        (11, 'MONEY', 1500.0),
@@ -190,19 +193,19 @@ VALUES (4, 'team'),
 INSERT INTO matchup_participants (matchup_id, player_id, team_id)
 VALUES (4, NULL, 3),
        (4, NULL, 1),
-       (5, 9, NULL),
-       (5, 12, NULL);
+       (5, 15, NULL),
+       (5, 13, NULL);
 
 INSERT INTO teams (team_name, admin_id)
 VALUES ('Yellow Foxes', 2),
        ('Black Panthers', 1);
 
 INSERT INTO player_teams (player_id, team_id)
-VALUES (11, 4),
-       (12, 4),
+VALUES (15, 4),
+       (14, 4),
        (13, 5);
 
 INSERT INTO statistics (player_id, category_code, value)
-VALUES (11, 'ASSISTS', 18.0),
-       (12, 'TOURNAMENTS', 7.0),
+VALUES (14, 'ASSISTS', 18.0),
+       (15, 'TOURNAMENTS', 7.0),
        (13, 'MONEY', 2000.0);
