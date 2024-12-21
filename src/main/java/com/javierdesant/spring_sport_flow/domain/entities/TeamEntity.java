@@ -27,7 +27,12 @@ public class TeamEntity implements Serializable {
     @JoinColumn(name = "admin_id")
     private AdminEntity admin;
 
-    @ManyToMany(mappedBy = "player_teams")
+    @ManyToMany
+    @JoinTable(
+            name = "player_teams",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
     private Set<PlayerEntity> players;
 
 }
