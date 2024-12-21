@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class StatisticRequest implements Serializable {
-    private String statName;
-    private Double statValue;
     private Long playerId;
     private String categoryCode;
+    private BigDecimal value;
 }

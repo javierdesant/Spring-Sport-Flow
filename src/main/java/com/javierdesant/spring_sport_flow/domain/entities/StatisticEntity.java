@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity(name = "statistics")
 @NoArgsConstructor
@@ -20,10 +21,7 @@ public class StatisticEntity implements Serializable {
     private Long statId;
 
     @Column(nullable = false)
-    private String statName;
-
-    @Column(nullable = false)
-    private Double statValue;
+    private BigDecimal value;
 
     @ManyToOne
     @JoinColumn(name = "player_id", nullable = false)

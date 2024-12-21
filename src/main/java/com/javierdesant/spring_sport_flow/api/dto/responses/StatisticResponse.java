@@ -6,15 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class StatisticResponse implements Serializable {
-    private Long id;
-    private String statName;
-    private Double statValue;
+    private Long statId;
     private PlayerResponse player;
     private CategoryResponse category;
+    private BigDecimal value;
 }
