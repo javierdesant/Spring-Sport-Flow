@@ -17,21 +17,19 @@ CREATE TABLE users
 
 CREATE TABLE administrators
 (
-    admin_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id  BIGINT NOT NULL UNIQUE,
+    user_id BIGINT PRIMARY KEY,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE players
 (
-    player_id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id    BIGINT       NOT NULL UNIQUE,
+    user_id    BIGINT       PRIMARY KEY ,
     first_name VARCHAR(100) NOT NULL,
     last_name  VARCHAR(150) NOT NULL,
     dni        VARCHAR(15)  NOT NULL UNIQUE,
     admin_id   BIGINT,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (admin_id) REFERENCES administrators (admin_id) ON DELETE SET NULL
+    FOREIGN KEY (admin_id) REFERENCES administrators (user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE categories
@@ -58,7 +56,7 @@ CREATE TABLE statistics
     player_id     BIGINT      NOT NULL,
     category_code VARCHAR(50) NOT NULL,
     value         DECIMAL(10, 2) DEFAULT 0.0,
-    FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES players (user_id) ON DELETE CASCADE,
     FOREIGN KEY (category_code) REFERENCES categories (category_code) ON DELETE CASCADE,
     UNIQUE (player_id, category_code)
 );
@@ -68,7 +66,7 @@ CREATE TABLE teams
     team_id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     team_name VARCHAR(150) NOT NULL UNIQUE,
     admin_id  BIGINT,
-    FOREIGN KEY (admin_id) REFERENCES administrators (admin_id) ON DELETE SET NULL
+    FOREIGN KEY (admin_id) REFERENCES administrators (user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE player_teams
@@ -76,7 +74,7 @@ CREATE TABLE player_teams
     player_id BIGINT NOT NULL,
     team_id   BIGINT NOT NULL,
     PRIMARY KEY (player_id, team_id),
-    FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES players (user_id) ON DELETE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE CASCADE
 );
 
@@ -101,7 +99,7 @@ CREATE TABLE registrations
     player_id       BIGINT,
     team_id         BIGINT,
     FOREIGN KEY (tournament_id) REFERENCES tournaments (tournament_id) ON DELETE CASCADE,
-    FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE SET NULL,
+    FOREIGN KEY (player_id) REFERENCES players (user_id) ON DELETE SET NULL,
     FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE SET NULL,
     CONSTRAINT chk_registration CHECK (
         (player_id IS NOT NULL AND team_id IS NULL) OR
@@ -126,7 +124,7 @@ CREATE TABLE matchup_participants
     player_id  BIGINT,
     team_id    BIGINT,
     FOREIGN KEY (matchup_id) REFERENCES matchups (matchup_id) ON DELETE CASCADE,
-    FOREIGN KEY (player_id) REFERENCES players (player_id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES players (user_id) ON DELETE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE CASCADE,
     CONSTRAINT chk_valid_participant CHECK (
         (player_id IS NOT NULL AND team_id IS NULL) OR

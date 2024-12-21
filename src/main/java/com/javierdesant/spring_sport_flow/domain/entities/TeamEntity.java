@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity(name = "teams")
@@ -13,11 +14,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class TeamEntity {
+public class TeamEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long teamId;
 
     @Column(length = 150, unique = true, nullable = false)
     private String teamName;
@@ -26,7 +27,12 @@ public class TeamEntity {
     @JoinColumn(name = "admin_id")
     private AdminEntity admin;
 
-    @ManyToMany(mappedBy = "player_teams")
+    @ManyToMany
+    @JoinTable(
+            name = "player_teams",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
     private Set<PlayerEntity> players;
 
 }

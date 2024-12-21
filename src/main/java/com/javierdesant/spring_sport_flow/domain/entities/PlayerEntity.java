@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
@@ -13,7 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
+@SuperBuilder(toBuilder = true)
 public class PlayerEntity extends UserEntity {
+
     @Column(length = 100, nullable = false)
     private String firstName;
 
@@ -30,11 +33,6 @@ public class PlayerEntity extends UserEntity {
     @JoinColumn(name = "admin_id")
     private AdminEntity admin;
 
-    @ManyToMany
-    @JoinTable(
-            name = "player_teams",
-            joinColumns = @JoinColumn(name = "player_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id")
-    )
+    @ManyToMany(mappedBy = "players")
     private Set<TeamEntity> teams;
 }

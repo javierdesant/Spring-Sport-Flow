@@ -6,22 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 @Entity(name = "statistics")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class StatisticEntity {
+public class StatisticEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long statId;
 
     @Column(nullable = false)
-    private String statName;
-
-    @Column(nullable = false)
-    private Double statValue;
+    private BigDecimal value;
 
     @ManyToOne
     @JoinColumn(name = "player_id", nullable = false)

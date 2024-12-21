@@ -6,16 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity(name = "matchups")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class MatchEntity {
+public class MatchEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long matchupId;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id", nullable = false)

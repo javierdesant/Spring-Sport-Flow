@@ -1,14 +1,19 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Entity(name = "registrations")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegistrationEntity {
+public class RegistrationEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
