@@ -17,21 +17,19 @@ CREATE TABLE users
 
 CREATE TABLE administrators
 (
-    admin_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id  BIGINT NOT NULL UNIQUE,
+    user_id BIGINT PRIMARY KEY,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE players
 (
-    player_id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id    BIGINT       NOT NULL UNIQUE,
+    user_id    BIGINT       PRIMARY KEY ,
     first_name VARCHAR(100) NOT NULL,
     last_name  VARCHAR(150) NOT NULL,
     dni        VARCHAR(15)  NOT NULL UNIQUE,
     admin_id   BIGINT,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (admin_id) REFERENCES administrators (admin_id) ON DELETE SET NULL
+    FOREIGN KEY (admin_id) REFERENCES administrators (user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE categories
