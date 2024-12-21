@@ -1,18 +1,17 @@
 package com.javierdesant.spring_sport_flow.api.dto.responses;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
-public class SportResponse extends BaseCodeResponse {
+@Builder
+public class SportResponse implements Serializable {
+    private String sportCode;
+    private String sportName;
     private Set<TournamentResponse> tournaments;
 }
