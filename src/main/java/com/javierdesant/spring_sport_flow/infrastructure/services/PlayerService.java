@@ -34,7 +34,7 @@ public class PlayerService implements IPlayerService {
 
         PlayerEntity playerPersisted = playerRepository.save(playerToPersist);
 
-        log.info("player saved with id: {}", playerPersisted.getId());
+        log.info("player saved with id: {}", playerPersisted.getUserId());
 
         return this.entityToResponse(playerPersisted);
     }
