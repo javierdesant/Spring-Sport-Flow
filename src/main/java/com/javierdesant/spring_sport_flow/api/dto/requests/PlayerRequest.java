@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 @SuperBuilder
 public class PlayerRequest extends UserRequest {
     private String firstName;
