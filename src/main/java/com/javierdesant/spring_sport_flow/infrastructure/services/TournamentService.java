@@ -75,9 +75,30 @@ public class TournamentService implements ITournamentService {
                 .orElseThrow();
     }
 
+    // TODO: revisar metodo:
     @Override
     public TournamentResponse update(TournamentRequest request, Long aLong) {
-        return null;
+        TournamentEntity tournament = tournamentRepository.findById(aLong).orElseThrow();
+
+        LeagueEntity league = leagueRepository.findById(request.getLeagueCode()).orElseThrow();
+        SportEntity sport = sportRepository.findById(request.getSportCode()).orElseThrow();
+        CategoryEntity category = categoryRepository.findById(request.getCategoryCode()).orElseThrow();
+
+        TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
+
+        tournament = tournament.toBuilder()
+                .tournamentName(request.getTournamentName())
+                .league(league)
+                .sport(sport)
+                .category(category)
+                .timeFrame(timeFrame)
+                .build();
+
+        tournament = tournamentRepository.save(tournament);
+
+        log.info("Tournament updated with id: {}", tournament.getTournamentId());
+
+        return toResponse(tournament);
     }
 
     @Override
