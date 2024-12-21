@@ -33,31 +33,45 @@ public class TournamentService implements ITournamentService {
 
     @Override
     public TournamentResponse create(TournamentRequest request) {
-        LeagueEntity league = leagueRepository.findById(request.getLeagueCode()).orElseThrow();
-        SportEntity sport = sportRepository.findById(request.getSportCode()).orElseThrow();
-        CategoryEntity category = categoryRepository.findById(request.getCategoryCode()).orElseThrow();
+        LeagueEntity leagueEntity = findLeagueById(request.getLeagueCode());
+        SportEntity sportEntity = findSportById(request.getSportCode());
+        CategoryEntity categoryEntity = findCategoryById(request.getCategoryCode());
 
-        TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
+        TimeFrame tournamentTimeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
         TournamentEntity tournamentEntity = TournamentEntity.builder()
                 .tournamentName(request.getTournamentName())
-                .league(league)
-                .sport(sport)
-                .category(category)
-                .timeFrame(timeFrame)
+                .league(leagueEntity)
+                .sport(sportEntity)
+                .category(categoryEntity)
+                .timeFrame(tournamentTimeFrame)
                 .build();
 
-        tournamentEntity = tournamentRepository.save(tournamentEntity);
+        TournamentEntity savedTournament = tournamentRepository.save(tournamentEntity);
+        log.info("Tournament '{} (ID: {})' saved successfully.", savedTournament.getTournamentName(), savedTournament.getTournamentId());
 
-        log.info("Tournament saved with id: {}", tournamentEntity.getTournamentId());
+        return toResponse(savedTournament);
+    }
 
-        return this.EntitytoResponse(tournamentEntity);
+    private LeagueEntity findLeagueById(String leagueCode) {
+        return leagueRepository.findById(leagueCode)
+                .orElseThrow();
+    }
+
+    private SportEntity findSportById(String sportCode) {
+        return sportRepository.findById(sportCode)
+                .orElseThrow();
+    }
+
+    private CategoryEntity findCategoryById(String categoryCode) {
+        return categoryRepository.findById(categoryCode)
+                .orElseThrow();
     }
 
     @Override
     public TournamentResponse read(Long aLong) {
         return tournamentRepository.findById(aLong)
-                .map(this::EntitytoResponse)
+                .map(TournamentService::toResponse)
                 .orElseThrow();
     }
 
@@ -71,10 +85,9 @@ public class TournamentService implements ITournamentService {
         tournamentRepository.deleteById(aLong);
     }
 
-    private TournamentResponse EntitytoResponse(TournamentEntity entity) {
+    private static TournamentResponse toResponse(TournamentEntity entity) {
         TournamentResponse response = new TournamentResponse();
         BeanUtils.copyProperties(entity, response);
-
 
         CategoryResponse categoryResponse = new CategoryResponse();
         BeanUtils.copyProperties(entity.getCategory(), categoryResponse);
