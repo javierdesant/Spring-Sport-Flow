@@ -5,10 +5,7 @@ import com.javierdesant.spring_sport_flow.api.dto.responses.TournamentResponse;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.ITournamentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tournaments")
@@ -19,6 +16,11 @@ public class TournamentController {
     @PostMapping
     public ResponseEntity<TournamentResponse> post(@RequestBody TournamentRequest request) {
         return ResponseEntity.ok(tournamentService.create(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TournamentResponse> get(@PathVariable Long id) {
+        return ResponseEntity.ok(tournamentService.read(id));
     }
 
 }
