@@ -13,6 +13,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
-public class AdminResponse extends UserResponse {   // TODO: revisar si falta el id
+public class AdminResponse extends UserResponse {
     private Set<TeamResponse> managedTeams;
 }

@@ -15,5 +15,5 @@ import java.util.Set;
 public class TeamRequest implements Serializable {
     private String teamName;
     private Set<Long> playerIds;
-//    private Long adminId;
+    private Long adminId;
 }
