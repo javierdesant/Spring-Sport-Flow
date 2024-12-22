@@ -15,5 +15,4 @@ import java.util.Set;
 public class SportResponse implements Serializable {
     private String sportCode;
     private String sportName;
-    private Set<TournamentResponse> tournaments;
 }
