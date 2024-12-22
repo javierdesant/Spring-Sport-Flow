@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,33 +67,35 @@ public class TournamentService implements ITournamentService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    // TODO: revisar metodo:
     @Override
-    public TournamentEntity update(TournamentRequest request, Long aLong) {
-        TournamentEntity tournament = tournamentRepository.findById(aLong).orElseThrow(EntityNotFoundException::new);
+    public TournamentEntity update(TournamentRequest request, Long id) {
+        TournamentEntity tournament = tournamentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tournament not found with id: " + id));
 
-        LeagueEntity league = leagueRepository.findById(request.getLeagueCode())
-                .orElseThrow(EntityNotFoundException::new);
-        SportEntity sport = sportRepository.findById(request.getSportCode())
-                .orElseThrow(EntityNotFoundException::new);
-        CategoryEntity category = categoryRepository.findById(request.getCategoryCode())
-                .orElseThrow(EntityNotFoundException::new);
+        LeagueEntity league = fetchEntityById(leagueRepository, request.getLeagueCode(), "League");
+        SportEntity sport = fetchEntityById(sportRepository, request.getSportCode(), "Sport");
+        CategoryEntity category = fetchEntityById(categoryRepository, request.getCategoryCode(), "Category");
 
         TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
-        // TODO: improve this
         tournament = tournament.toBuilder()
                 .tournamentName(request.getTournamentName())
-                .league(league).sport(sport)
+                .league(league)
+                .sport(sport)
                 .category(category)
                 .timeFrame(timeFrame)
                 .build();
 
-        tournament = tournamentRepository.save(tournament);
+        TournamentEntity updatedTournament = tournamentRepository.save(tournament);
 
-        log.info("Tournament updated with id: {}", tournament.getTournamentId());
+        log.info("Tournament updated with id: {}", updatedTournament.getTournamentId());
 
-        return tournament;
+        return updatedTournament;
+    }
+
+    private <T> T fetchEntityById(CrudRepository<T, String> repository, String id, String entityName) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(entityName + " not found with id: " + id));
     }
 
     @Override
