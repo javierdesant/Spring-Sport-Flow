@@ -19,7 +19,7 @@ public class PlayerService implements IPlayerService {
     private final PlayerRepository playerRepository;
 
     @Override
-    public PlayerResponse create(PlayerRequest request) {
+    public PlayerEntity create(PlayerRequest request) {
 
         PlayerEntity playerToPersist = PlayerEntity.builder()
                 .dni(request.getDni())
@@ -36,16 +36,16 @@ public class PlayerService implements IPlayerService {
 
         log.info("player saved with id: {}", playerPersisted.getUserId());
 
-        return this.entityToResponse(playerPersisted);
+        return playerPersisted;
     }
 
     @Override
-    public PlayerResponse read(Long aLong) {
+    public PlayerEntity read(Long aLong) {
         return null;
     }
 
     @Override
-    public PlayerResponse update(PlayerRequest request, Long aLong) {
+    public PlayerEntity update(PlayerRequest request, Long aLong) {
         return null;
     }
 
