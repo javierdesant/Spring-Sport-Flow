@@ -1,15 +1,13 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
+import com.javierdesant.spring_sport_flow.utils.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity(name = "players")
@@ -40,8 +38,8 @@ public class PlayerEntity extends UserEntity {
     private Set<TeamEntity> teams;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();   // TODO
+    protected Role getRole() {
+        return Role.ADMIN;
     }
 
     @Override
