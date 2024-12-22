@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 public class PlayerResponse extends UserResponse {  // TODO: revisar
-    private Long playerId;
     private String firstName;
     private String lastName;
     private String dni;
