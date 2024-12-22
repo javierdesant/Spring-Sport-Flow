@@ -15,6 +15,7 @@ import com.javierdesant.spring_sport_flow.domain.repositories.SportRepository;
 import com.javierdesant.spring_sport_flow.domain.repositories.TournamentRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.ITournamentService;
 import com.javierdesant.spring_sport_flow.utils.TimeFrame;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -70,30 +71,38 @@ public class TournamentService implements ITournamentService {
     }
 
     private LeagueEntity findLeagueById(String leagueCode) {
-        return leagueRepository.findById(leagueCode).orElseThrow();
+        return leagueRepository.findById(leagueCode)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     private SportEntity findSportById(String sportCode) {
-        return sportRepository.findById(sportCode).orElseThrow();
+        return sportRepository.findById(sportCode)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     private CategoryEntity findCategoryById(String categoryCode) {
-        return categoryRepository.findById(categoryCode).orElseThrow();
+        return categoryRepository.findById(categoryCode)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public TournamentResponse read(Long aLong) {
-        return tournamentRepository.findById(aLong).map(TournamentService::toResponse).orElseThrow();
+        return tournamentRepository.findById(aLong)
+                .map(TournamentService::toResponse)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     // TODO: revisar metodo:
     @Override
     public TournamentResponse update(TournamentRequest request, Long aLong) {
-        TournamentEntity tournament = tournamentRepository.findById(aLong).orElseThrow();
+        TournamentEntity tournament = tournamentRepository.findById(aLong).orElseThrow(EntityNotFoundException::new);
 
-        LeagueEntity league = leagueRepository.findById(request.getLeagueCode()).orElseThrow();
-        SportEntity sport = sportRepository.findById(request.getSportCode()).orElseThrow();
-        CategoryEntity category = categoryRepository.findById(request.getCategoryCode()).orElseThrow();
+        LeagueEntity league = leagueRepository.findById(request.getLeagueCode())
+                .orElseThrow(EntityNotFoundException::new);
+        SportEntity sport = sportRepository.findById(request.getSportCode())
+                .orElseThrow(EntityNotFoundException::new);
+        CategoryEntity category = categoryRepository.findById(request.getCategoryCode())
+                .orElseThrow(EntityNotFoundException::new);
 
         TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
