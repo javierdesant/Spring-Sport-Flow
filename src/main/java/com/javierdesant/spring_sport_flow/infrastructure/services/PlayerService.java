@@ -1,13 +1,11 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services;
 
 import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
-import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.repositories.PlayerRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.IPlayerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +19,7 @@ public class PlayerService implements IPlayerService {
     @Override
     public PlayerEntity create(PlayerRequest request) {
 
+        // TODO: add .adminId() on auth
         PlayerEntity playerToPersist = PlayerEntity.builder()
                 .dni(request.getDni())
                 .firstName(request.getFirstName())
@@ -29,14 +28,14 @@ public class PlayerService implements IPlayerService {
                 .password(request.getPassword())
                 .build();
 
-        // is .adminId() missing ?
-        // FIXME: integrate with Spring Security
+        PlayerEntity savedPlayer = playerRepository.save(playerToPersist);
 
-        PlayerEntity playerPersisted = playerRepository.save(playerToPersist);
+        log.info("Tournament '{} {} (ID: {})' saved successfully.",
+                savedPlayer.getFirstName(),
+                savedPlayer.getLastName(),
+                savedPlayer.getUserId());
 
-        log.info("player saved with id: {}", playerPersisted.getUserId());
-
-        return playerPersisted;
+        return savedPlayer;
     }
 
     @Override
@@ -52,12 +51,5 @@ public class PlayerService implements IPlayerService {
     @Override
     public void delete(Long aLong) {
 
-    }
-
-    private PlayerResponse entityToResponse(PlayerEntity entity) {
-        // FIXME: integrate with Spring Security
-        PlayerResponse response = new PlayerResponse();
-        BeanUtils.copyProperties(entity, response);
-        return response;
     }
 }
