@@ -56,9 +56,9 @@ public class TournamentService implements ITournamentService {
 
     @Override
     public TournamentResponse create(TournamentRequest request) {
-        LeagueEntity leagueEntity = findLeagueById(request.getLeagueCode());
-        SportEntity sportEntity = findSportById(request.getSportCode());
-        CategoryEntity categoryEntity = findCategoryById(request.getCategoryCode());
+        LeagueEntity leagueEntity = getLeagueById(request.getLeagueCode());
+        SportEntity sportEntity = getSportById(request.getSportCode());
+        CategoryEntity categoryEntity = getCategoryById(request.getCategoryCode());
 
         TimeFrame tournamentTimeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
@@ -70,17 +70,17 @@ public class TournamentService implements ITournamentService {
         return toResponse(savedTournament);
     }
 
-    private LeagueEntity findLeagueById(String leagueCode) {
+    private LeagueEntity getLeagueById(String leagueCode) {
         return leagueRepository.findById(leagueCode)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    private SportEntity findSportById(String sportCode) {
+    private SportEntity getSportById(String sportCode) {
         return sportRepository.findById(sportCode)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    private CategoryEntity findCategoryById(String categoryCode) {
+    private CategoryEntity getCategoryById(String categoryCode) {
         return categoryRepository.findById(categoryCode)
                 .orElseThrow(EntityNotFoundException::new);
     }
