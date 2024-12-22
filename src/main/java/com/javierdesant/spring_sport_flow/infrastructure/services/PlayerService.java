@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Transactional
 @Service
 @Slf4j
@@ -62,5 +64,10 @@ public class PlayerService implements IPlayerService {
     @Override
     public void delete(Long aLong) {
 
+    }
+
+    @Override
+    public Optional<PlayerEntity> findOneByUsername(String email) {
+        return playerRepository.findByEmail(email);
     }
 }
