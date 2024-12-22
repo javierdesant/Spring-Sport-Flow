@@ -4,6 +4,7 @@ import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.repositories.PlayerRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.IPlayerService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.exceptions.InvalidPasswordException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,12 @@ public class PlayerService implements IPlayerService {
     @Override
     public PlayerEntity create(PlayerRequest request) {
 
-        // TODO: add .adminId() on auth
-        PlayerEntity playerToPersist = PlayerEntity.builder()
+        this.validatePasswords(request);
+
+        // TODO: encrypt password
+
+        // TODO: add .adminId() on register
+        PlayerEntity playerToRegister = PlayerEntity.builder()
                 .dni(request.getDni())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -28,7 +33,7 @@ public class PlayerService implements IPlayerService {
                 .password(request.getPassword())
                 .build();
 
-        PlayerEntity savedPlayer = playerRepository.save(playerToPersist);
+        PlayerEntity savedPlayer = playerRepository.save(playerToRegister);
 
         log.info("Player '{} {} (ID: {})' saved successfully.",
                 savedPlayer.getFirstName(),
@@ -36,6 +41,12 @@ public class PlayerService implements IPlayerService {
                 savedPlayer.getUserId());
 
         return savedPlayer;
+    }
+
+    private void validatePasswords(PlayerRequest request) {
+        if (!request.getPassword().equals(request.getPasswordConfirmation())) {
+            throw new InvalidPasswordException("Passwords do not match");
+        }
     }
 
     @Override
