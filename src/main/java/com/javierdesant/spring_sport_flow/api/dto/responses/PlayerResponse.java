@@ -6,17 +6,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Set;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 public class PlayerResponse extends UserResponse {  // TODO: revisar
+    private Long playerId;
     private String firstName;
     private String lastName;
     private String dni;
     private AdminResponse admin;
-    private Set<TeamResponse> teams;
+    private String jwt;
 }
