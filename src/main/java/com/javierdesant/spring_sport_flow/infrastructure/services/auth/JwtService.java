@@ -28,12 +28,12 @@ public class JwtService {
         Date expirationDate = new Date(issuedAt.getTime() + (EXPIRATION_IN_MINUTES * 60 * 1000));
 
         return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(user.getUsername())
-                .setIssuedAt(issuedAt)
-                .setExpiration(expirationDate)
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .signWith(generateKey(), SignatureAlgorithm.HS512)
+                .claims(extraClaims)
+                .subject(user.getUsername())
+                .issuedAt(issuedAt)
+                .expiration(expirationDate)
+                .header().add("typ", "JWT").and()
+                .signWith(generateKey())
                 .compact();
     }
 
