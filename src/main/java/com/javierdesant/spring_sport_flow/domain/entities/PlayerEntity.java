@@ -66,4 +66,8 @@ public class PlayerEntity extends UserEntity {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 }
