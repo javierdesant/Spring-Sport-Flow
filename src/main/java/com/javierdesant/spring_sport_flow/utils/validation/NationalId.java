@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = DelegatingNationalIdValidator.class)
+@Constraint(validatedBy = NationalIdValidatorDelegator.class)
 public @interface NationalId {
     String message() default "The ID is not valid";
 

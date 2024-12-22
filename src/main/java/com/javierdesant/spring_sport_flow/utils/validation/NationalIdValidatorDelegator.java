@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DelegatingNationalIdValidator implements ConstraintValidator<NationalId, String> {
+public class NationalIdValidatorDelegator implements ConstraintValidator<NationalId, String> {
 
     private static final Map<String, NationalIdValidator> VALIDATORS;
 
