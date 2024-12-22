@@ -30,7 +30,7 @@ public class PlayerService implements IPlayerService {
 
         PlayerEntity savedPlayer = playerRepository.save(playerToPersist);
 
-        log.info("Tournament '{} {} (ID: {})' saved successfully.",
+        log.info("Player '{} {} (ID: {})' saved successfully.",
                 savedPlayer.getFirstName(),
                 savedPlayer.getLastName(),
                 savedPlayer.getUserId());
