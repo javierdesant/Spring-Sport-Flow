@@ -1,5 +1,6 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
+import com.javierdesant.spring_sport_flow.utils.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,4 +36,38 @@ public class PlayerEntity extends UserEntity {
 
     @ManyToMany(mappedBy = "players")
     private Set<TeamEntity> teams;
+
+    @Override
+    protected Role getRole() {
+        return Role.ADMIN;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 }

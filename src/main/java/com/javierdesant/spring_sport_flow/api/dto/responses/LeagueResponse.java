@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,5 +14,4 @@ import java.util.Set;
 public class LeagueResponse implements Serializable {
     private String leagueCode;
     private String leagueName;
-    private Set<TournamentResponse> tournaments;
 }

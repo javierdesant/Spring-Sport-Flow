@@ -1,5 +1,6 @@
 package com.javierdesant.spring_sport_flow.domain.entities;
 
+import com.javierdesant.spring_sport_flow.utils.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -20,5 +21,35 @@ public class AdminEntity extends UserEntity {
 
     @OneToMany(mappedBy = "admin")
     private Set<TeamEntity> managedTeams;
+
+    @Override
+    protected Role getRole() {
+        return Role.ADMIN;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 }

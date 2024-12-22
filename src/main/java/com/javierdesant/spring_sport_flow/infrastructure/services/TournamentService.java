@@ -1,10 +1,6 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services;
 
 import com.javierdesant.spring_sport_flow.api.dto.requests.TournamentRequest;
-import com.javierdesant.spring_sport_flow.api.dto.responses.CategoryResponse;
-import com.javierdesant.spring_sport_flow.api.dto.responses.LeagueResponse;
-import com.javierdesant.spring_sport_flow.api.dto.responses.SportResponse;
-import com.javierdesant.spring_sport_flow.api.dto.responses.TournamentResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.CategoryEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.LeagueEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.SportEntity;
@@ -15,9 +11,12 @@ import com.javierdesant.spring_sport_flow.domain.repositories.SportRepository;
 import com.javierdesant.spring_sport_flow.domain.repositories.TournamentRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.ITournamentService;
 import com.javierdesant.spring_sport_flow.utils.TimeFrame;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +31,60 @@ public class TournamentService implements ITournamentService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public TournamentResponse create(TournamentRequest request) {
-        LeagueEntity league = leagueRepository.findById(request.getLeagueCode()).orElseThrow();
-        SportEntity sport = sportRepository.findById(request.getSportCode()).orElseThrow();
-        CategoryEntity category = categoryRepository.findById(request.getCategoryCode()).orElseThrow();
+    public TournamentEntity create(TournamentRequest request) {
+        LeagueEntity leagueEntity = getLeagueById(request.getLeagueCode());
+        SportEntity sportEntity = getSportById(request.getSportCode());
+        CategoryEntity categoryEntity = getCategoryById(request.getCategoryCode());
+
+        TimeFrame tournamentTimeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
+
+        TournamentEntity tournament = TournamentEntity.builder()
+                .tournamentName(request.getTournamentName())
+                .league(leagueEntity)
+                .sport(sportEntity)
+                .category(categoryEntity)
+                .timeFrame(tournamentTimeFrame).build();
+
+        TournamentEntity savedTournament = tournamentRepository.save(tournament);
+        log.info("Tournament '{} (ID: {})' saved successfully.",
+                savedTournament.getTournamentName(), savedTournament.getTournamentId());
+
+        return savedTournament;
+    }
+
+    private LeagueEntity getLeagueById(String leagueCode) {
+        return leagueRepository.findById(leagueCode)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    private SportEntity getSportById(String sportCode) {
+        return sportRepository.findById(sportCode)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    private CategoryEntity getCategoryById(String categoryCode) {
+        return categoryRepository.findById(categoryCode)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public TournamentEntity read(Long aLong) {
+        return tournamentRepository.findById(aLong)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public TournamentEntity update(TournamentRequest request, Long id) {
+        TournamentEntity tournament = tournamentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tournament not found with id: " + id));
+
+        LeagueEntity league = fetchEntityById(leagueRepository, request.getLeagueCode(), "League");
+        SportEntity sport = fetchEntityById(sportRepository, request.getSportCode(), "Sport");
+        CategoryEntity category = fetchEntityById(categoryRepository, request.getCategoryCode(), "Category");
 
         TimeFrame timeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
-        TournamentEntity tournamentEntity = TournamentEntity.builder()
+        tournament = tournament.toBuilder()
                 .tournamentName(request.getTournamentName())
                 .league(league)
                 .sport(sport)
@@ -47,23 +92,16 @@ public class TournamentService implements ITournamentService {
                 .timeFrame(timeFrame)
                 .build();
 
-        tournamentEntity = tournamentRepository.save(tournamentEntity);
+        TournamentEntity updatedTournament = tournamentRepository.save(tournament);
 
-        log.info("Tournament saved with id: {}", tournamentEntity.getTournamentId());
+        log.info("Tournament updated with id: {}", updatedTournament.getTournamentId());
 
-        return this.EntitytoResponse(tournamentEntity);
+        return updatedTournament;
     }
 
-    @Override
-    public TournamentResponse read(Long aLong) {
-        return tournamentRepository.findById(aLong)
-                .map(this::EntitytoResponse)
-                .orElseThrow();
-    }
-
-    @Override
-    public TournamentResponse update(TournamentRequest request, Long aLong) {
-        return null;
+    private <T> T fetchEntityById(CrudRepository<T, String> repository, String id, String entityName) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(entityName + " not found with id: " + id));
     }
 
     @Override
@@ -71,24 +109,8 @@ public class TournamentService implements ITournamentService {
         tournamentRepository.deleteById(aLong);
     }
 
-    private TournamentResponse EntitytoResponse(TournamentEntity entity) {
-        TournamentResponse response = new TournamentResponse();
-        BeanUtils.copyProperties(entity, response);
-
-
-        CategoryResponse categoryResponse = new CategoryResponse();
-        BeanUtils.copyProperties(entity.getCategory(), categoryResponse);
-        SportResponse sportResponse = new SportResponse();
-        BeanUtils.copyProperties(entity.getSport(), sportResponse);
-        LeagueResponse leagueResponse = new LeagueResponse();
-        BeanUtils.copyProperties(entity.getLeague(), leagueResponse);
-
-        response = response.toBuilder()
-                .category(categoryResponse)
-                .sport(sportResponse)
-                .league(leagueResponse)
-                .build();
-
-        return response;
+    @Override
+    public Page<TournamentEntity> listAll(Pageable pageable) {
+        return tournamentRepository.findAll(pageable);
     }
 }

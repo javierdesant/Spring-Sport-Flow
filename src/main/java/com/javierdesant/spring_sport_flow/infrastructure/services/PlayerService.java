@@ -1,15 +1,18 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services;
 
 import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
-import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.repositories.PlayerRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.IPlayerService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.exceptions.InvalidPasswordException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -17,35 +20,46 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class PlayerService implements IPlayerService {
     private final PlayerRepository playerRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public PlayerResponse create(PlayerRequest request) {
+    public PlayerEntity create(PlayerRequest request) {
+        this.validatePasswords(request);
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        PlayerEntity playerToPersist = PlayerEntity.builder()
+        // TODO: add .adminId() on register
+        PlayerEntity playerToRegister = PlayerEntity.builder()
                 .dni(request.getDni())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .build();
 
-        // is .adminId() missing ?
-        // FIXME: integrate with Spring Security
+        PlayerEntity savedPlayer = playerRepository.save(playerToRegister);
 
-        PlayerEntity playerPersisted = playerRepository.save(playerToPersist);
+        log.info("Player '{} {} (ID: {})' saved successfully.",
+                savedPlayer.getFirstName(),
+                savedPlayer.getLastName(),
+                savedPlayer.getUserId());
 
-        log.info("player saved with id: {}", playerPersisted.getUserId());
+        return savedPlayer;
+    }
 
-        return this.entityToResponse(playerPersisted);
+    private void validatePasswords(PlayerRequest request) {
+        if (!request.getPassword().equals(request.getPasswordConfirmation())) {
+            throw new InvalidPasswordException("Passwords do not match");
+        }
     }
 
     @Override
-    public PlayerResponse read(Long aLong) {
-        return null;
+    public PlayerEntity read(Long aLong) {
+        return playerRepository.findById(aLong)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public PlayerResponse update(PlayerRequest request, Long aLong) {
+    public PlayerEntity update(PlayerRequest request, Long aLong) {
         return null;
     }
 
@@ -54,10 +68,8 @@ public class PlayerService implements IPlayerService {
 
     }
 
-    private PlayerResponse entityToResponse(PlayerEntity entity) {
-        // FIXME: integrate with Spring Security
-        PlayerResponse response = new PlayerResponse();
-        BeanUtils.copyProperties(entity, response);
-        return response;
+    @Override
+    public Optional<PlayerEntity> findOneByUsername(String email) {
+        return playerRepository.findByEmail(email);
     }
 }

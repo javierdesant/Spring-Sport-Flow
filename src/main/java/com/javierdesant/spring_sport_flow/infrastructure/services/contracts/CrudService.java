@@ -1,12 +1,12 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services.contracts;
 
-public interface CrudService<RQ, RS, ID> {
+public interface CrudService<RQ, EN, ID> {
 
-    RS create(RQ request);
+    EN create(RQ request);
 
-    RS read(ID id);
+    EN read(ID id);
 
-    RS update(RQ request, ID id);
+    EN update(RQ request, ID id);
 
     void delete(ID id);
 
