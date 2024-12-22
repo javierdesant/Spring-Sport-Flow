@@ -1,10 +1,6 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services;
 
 import com.javierdesant.spring_sport_flow.api.dto.requests.TournamentRequest;
-import com.javierdesant.spring_sport_flow.api.dto.responses.CategoryResponse;
-import com.javierdesant.spring_sport_flow.api.dto.responses.LeagueResponse;
-import com.javierdesant.spring_sport_flow.api.dto.responses.SportResponse;
-import com.javierdesant.spring_sport_flow.api.dto.responses.TournamentResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.CategoryEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.LeagueEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.SportEntity;
@@ -18,7 +14,6 @@ import com.javierdesant.spring_sport_flow.utils.TimeFrame;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,28 +29,8 @@ public class TournamentService implements ITournamentService {
     private final SportRepository sportRepository;
     private final CategoryRepository categoryRepository;
 
-    private static TournamentResponse toResponse(TournamentEntity entity) {
-        TournamentResponse response = new TournamentResponse();
-        BeanUtils.copyProperties(entity, response);
-
-        CategoryResponse categoryResponse = new CategoryResponse();
-        BeanUtils.copyProperties(entity.getCategory(), categoryResponse);
-        SportResponse sportResponse = new SportResponse();
-        BeanUtils.copyProperties(entity.getSport(), sportResponse);
-        LeagueResponse leagueResponse = new LeagueResponse();
-        BeanUtils.copyProperties(entity.getLeague(), leagueResponse);
-
-        response = response.toBuilder()
-                .category(categoryResponse)
-                .sport(sportResponse)
-                .league(leagueResponse)
-                .build();
-
-        return response;
-    }
-
     @Override
-    public TournamentResponse create(TournamentRequest request) {
+    public TournamentEntity create(TournamentRequest request) {
         LeagueEntity leagueEntity = getLeagueById(request.getLeagueCode());
         SportEntity sportEntity = getSportById(request.getSportCode());
         CategoryEntity categoryEntity = getCategoryById(request.getCategoryCode());
@@ -67,7 +42,7 @@ public class TournamentService implements ITournamentService {
         TournamentEntity savedTournament = tournamentRepository.save(tournamentEntity);
         log.info("Tournament '{} (ID: {})' saved successfully.", savedTournament.getTournamentName(), savedTournament.getTournamentId());
 
-        return toResponse(savedTournament);
+        return savedTournament;
     }
 
     private LeagueEntity getLeagueById(String leagueCode) {
@@ -86,15 +61,14 @@ public class TournamentService implements ITournamentService {
     }
 
     @Override
-    public TournamentResponse read(Long aLong) {
+    public TournamentEntity read(Long aLong) {
         return tournamentRepository.findById(aLong)
-                .map(TournamentService::toResponse)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
     // TODO: revisar metodo:
     @Override
-    public TournamentResponse update(TournamentRequest request, Long aLong) {
+    public TournamentEntity update(TournamentRequest request, Long aLong) {
         TournamentEntity tournament = tournamentRepository.findById(aLong).orElseThrow(EntityNotFoundException::new);
 
         LeagueEntity league = leagueRepository.findById(request.getLeagueCode())
@@ -118,7 +92,7 @@ public class TournamentService implements ITournamentService {
 
         log.info("Tournament updated with id: {}", tournament.getTournamentId());
 
-        return toResponse(tournament);
+        return tournament;
     }
 
     @Override
@@ -127,8 +101,7 @@ public class TournamentService implements ITournamentService {
     }
 
     @Override
-    public Page<TournamentResponse> listAll(Pageable pageable) {
-        return tournamentRepository.findAll(pageable)
-                .map(TournamentService::toResponse);
+    public Page<TournamentEntity> listAll(Pageable pageable) {
+        return tournamentRepository.findAll(pageable);
     }
 }
