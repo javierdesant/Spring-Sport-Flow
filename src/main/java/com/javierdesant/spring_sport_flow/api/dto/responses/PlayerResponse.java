@@ -17,5 +17,4 @@ public class PlayerResponse extends UserResponse {  // TODO: revisar
     private String lastName;
     private String dni;
     private AdminResponse admin;
-    private String jwt;
 }

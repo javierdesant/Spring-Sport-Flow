@@ -14,4 +14,5 @@ import java.io.Serializable;
 public abstract class UserResponse implements Serializable {
     private Long userId;
     private String email;
+    private String jwt;
 }
