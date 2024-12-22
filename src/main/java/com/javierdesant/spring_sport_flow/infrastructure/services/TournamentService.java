@@ -38,10 +38,16 @@ public class TournamentService implements ITournamentService {
 
         TimeFrame tournamentTimeFrame = new TimeFrame(request.getStartDate(), request.getEndDate());
 
-        TournamentEntity tournamentEntity = TournamentEntity.builder().tournamentName(request.getTournamentName()).league(leagueEntity).sport(sportEntity).category(categoryEntity).timeFrame(tournamentTimeFrame).build();
+        TournamentEntity tournament = TournamentEntity.builder()
+                .tournamentName(request.getTournamentName())
+                .league(leagueEntity)
+                .sport(sportEntity)
+                .category(categoryEntity)
+                .timeFrame(tournamentTimeFrame).build();
 
-        TournamentEntity savedTournament = tournamentRepository.save(tournamentEntity);
-        log.info("Tournament '{} (ID: {})' saved successfully.", savedTournament.getTournamentName(), savedTournament.getTournamentId());
+        TournamentEntity savedTournament = tournamentRepository.save(tournament);
+        log.info("Tournament '{} (ID: {})' saved successfully.",
+                savedTournament.getTournamentName(), savedTournament.getTournamentId());
 
         return savedTournament;
     }
