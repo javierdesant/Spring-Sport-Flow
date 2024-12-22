@@ -1,6 +1,5 @@
 package com.javierdesant.spring_sport_flow.infrastructure.config.security;
 
-import com.javierdesant.spring_sport_flow.domain.entities.UserEntity;
 import com.javierdesant.spring_sport_flow.infrastructure.config.security.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

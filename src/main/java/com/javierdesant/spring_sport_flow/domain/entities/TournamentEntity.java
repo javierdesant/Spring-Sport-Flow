@@ -48,16 +48,16 @@ public class TournamentEntity implements Serializable {
     }
 
     @SuppressWarnings("unused")
-    public LocalDate getEndDate() {
-        return this.timeFrame != null ? this.timeFrame.getEndDate() : null;
-    }
-
-    @SuppressWarnings("unused")
     public void setStartDate(LocalDate startDate) {
         if (this.timeFrame == null) {
             this.timeFrame = new TimeFrame();
         }
         this.timeFrame.setStartDate(startDate);
+    }
+
+    @SuppressWarnings("unused")
+    public LocalDate getEndDate() {
+        return this.timeFrame != null ? this.timeFrame.getEndDate() : null;
     }
 
     @SuppressWarnings("unused")

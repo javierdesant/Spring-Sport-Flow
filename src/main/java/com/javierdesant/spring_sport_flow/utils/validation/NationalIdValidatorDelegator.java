@@ -10,13 +10,13 @@ public class NationalIdValidatorDelegator implements ConstraintValidator<Nationa
 
     private static final Map<String, NationalIdValidator> VALIDATORS;
 
-    private String country;
-
     static {
         VALIDATORS = new HashMap<>();
         VALIDATORS.put("INTL", new DefaultNationalIdValidator());
         VALIDATORS.put("ES", new DniValidator());
     }
+
+    private String country;
 
     @Override
     public void initialize(NationalId constraintAnnotation) {

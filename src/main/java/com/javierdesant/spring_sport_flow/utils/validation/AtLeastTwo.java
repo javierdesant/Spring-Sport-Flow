@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = AtLeastTwoValidator.class)
 public @interface AtLeastTwo {
     String message() default "The set must contain at least two player IDs.";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
