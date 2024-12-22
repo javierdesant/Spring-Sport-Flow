@@ -43,14 +43,8 @@ public class JwtService {
         return Keys.hmacShaKeyFor(passwordDecoded);
     }
 
-    public boolean canExtractUsername(String jwt) {
-        try {
-            this.extractAllClaims(jwt).getSubject();
-        } catch (Exception ex) {
-            log.info(ex.getMessage());
-            return false;
-        }
-        return true;
+    public String extractUsername(String jwt) {
+        return this.extractAllClaims(jwt).getSubject();
     }
 
     private Claims extractAllClaims(String jwt) {

@@ -7,6 +7,7 @@ import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class AuthenticationService {
 
     private final PlayerService playerService;
@@ -66,6 +68,12 @@ public class AuthenticationService {
     }
 
     public boolean validateToken(String jwt) {
-        return jwtService.canExtractUsername(jwt);
+        try {
+            jwtService.extractUsername(jwt);
+        } catch (Exception ex) {
+            log.info(ex.getMessage());
+            return false;
+        }
+        return true;
     }
 }
