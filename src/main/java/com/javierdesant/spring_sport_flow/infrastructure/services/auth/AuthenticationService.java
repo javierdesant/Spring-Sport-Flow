@@ -64,4 +64,8 @@ public class AuthenticationService {
 
         return new AuthenticationResponse(jwt);
     }
+
+    public boolean validateToken(String jwt) {
+        return jwtService.canExtractUsername(jwt);
+    }
 }

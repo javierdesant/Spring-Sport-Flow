@@ -1,17 +1,20 @@
 package com.javierdesant.spring_sport_flow.infrastructure.services.auth;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class JwtService {
 
     @Value("${security.jwt.expiration-in-minutes}")
@@ -35,8 +38,26 @@ public class JwtService {
                 .compact();
     }
 
-    private Key generateKey() {
+    private SecretKey generateKey() {
         byte[] passwordDecoded = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(passwordDecoded);
+    }
+
+    public boolean canExtractUsername(String jwt) {
+        try {
+            this.extractAllClaims(jwt).getSubject();
+        } catch (Exception ex) {
+            log.info(ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private Claims extractAllClaims(String jwt) {
+        return Jwts.parser()
+                .verifyWith(this.generateKey())
+                .build()
+                .parseSignedClaims(jwt)
+                .getPayload();
     }
 }
