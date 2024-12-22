@@ -23,7 +23,7 @@ public class TournamentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TournamentResponse> get(@PathVariable Long id) {
+    public ResponseEntity<TournamentResponse> getOne(@PathVariable Long id) {
         return ResponseEntity.ok(tournamentService.read(id));
     }
 
