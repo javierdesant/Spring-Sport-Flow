@@ -5,6 +5,7 @@ import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.repositories.PlayerRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.IPlayerService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.exceptions.InvalidPasswordException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,7 +54,8 @@ public class PlayerService implements IPlayerService {
 
     @Override
     public PlayerEntity read(Long aLong) {
-        return null;
+        return playerRepository.findById(aLong)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
