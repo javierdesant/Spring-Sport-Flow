@@ -1,5 +1,7 @@
 \c sportflow_db;
 
+-- TODO!: update with encoded passwords
+
 INSERT INTO users (email, password)
 VALUES ('admin1@upm.es', 'securepass1'),
        ('admin2@upm.es', 'securepass2'),
