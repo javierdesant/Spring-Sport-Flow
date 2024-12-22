@@ -14,11 +14,14 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 public class PlayerRequest extends UserRequest {
+
     @NotBlank
     private String firstName;
+
     @NotBlank
     private String lastName;
+
     @NationalId(country = "ES")
     private String dni;
-//    private Long adminId;
+
 }

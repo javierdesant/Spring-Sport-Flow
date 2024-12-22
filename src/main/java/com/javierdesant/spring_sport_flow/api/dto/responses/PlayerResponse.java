@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
-public class PlayerResponse extends UserResponse {  // TODO: revisar
+public class PlayerResponse extends UserResponse {
     private String firstName;
     private String lastName;
     private String dni;
