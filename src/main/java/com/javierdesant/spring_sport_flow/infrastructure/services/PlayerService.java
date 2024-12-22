@@ -7,6 +7,7 @@ import com.javierdesant.spring_sport_flow.infrastructure.services.contracts.IPla
 import com.javierdesant.spring_sport_flow.infrastructure.services.exceptions.InvalidPasswordException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class PlayerService implements IPlayerService {
     private final PlayerRepository playerRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public PlayerEntity create(PlayerRequest request) {
-
         this.validatePasswords(request);
-
-        // TODO: encrypt password
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         // TODO: add .adminId() on register
         PlayerEntity playerToRegister = PlayerEntity.builder()
@@ -30,7 +30,7 @@ public class PlayerService implements IPlayerService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .build();
 
         PlayerEntity savedPlayer = playerRepository.save(playerToRegister);
