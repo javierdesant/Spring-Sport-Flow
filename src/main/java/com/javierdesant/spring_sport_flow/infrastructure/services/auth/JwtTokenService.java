@@ -48,13 +48,21 @@ public class JwtTokenService implements TokenService {
     @Override
     public boolean validateToken(String jwt) {
         try {
-            this.extractUsername(jwt);
+            Claims claims = this.extractAllClaims(jwt);
+
+            Date expirationDate = claims.getExpiration();
+            if (expirationDate.before(new Date())) {
+                log.info("El token ha caducado");
+                return false;
+            }
+
+            return true;
         } catch (Exception ex) {
-            log.info(ex.getMessage());
+            log.error("Error al validar el token: {}", ex.getMessage());
             return false;
         }
-        return true;
     }
+
 
     private Claims extractAllClaims(String jwt) {
         return Jwts.parser()
