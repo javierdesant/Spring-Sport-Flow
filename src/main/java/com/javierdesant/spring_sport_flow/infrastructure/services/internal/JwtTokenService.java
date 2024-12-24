@@ -1,6 +1,7 @@
-package com.javierdesant.spring_sport_flow.infrastructure.services.auth;
+package com.javierdesant.spring_sport_flow.infrastructure.services.internal;
 
 import com.javierdesant.spring_sport_flow.infrastructure.config.security.JwtKeyProvider;
+import com.javierdesant.spring_sport_flow.infrastructure.services.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

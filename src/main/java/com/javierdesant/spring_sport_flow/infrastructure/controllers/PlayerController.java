@@ -2,7 +2,7 @@ package com.javierdesant.spring_sport_flow.infrastructure.controllers;
 
 import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
-import com.javierdesant.spring_sport_flow.infrastructure.services.auth.AuthenticationService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

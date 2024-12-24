@@ -1,4 +1,4 @@
-package com.javierdesant.spring_sport_flow.infrastructure.services.auth;
+package com.javierdesant.spring_sport_flow.infrastructure.services.internal;
 
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationRequest;
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationResponse;
@@ -6,7 +6,9 @@ import com.javierdesant.spring_sport_flow.api.dto.mappers.PlayerMapper;
 import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
+import com.javierdesant.spring_sport_flow.infrastructure.services.AuthenticationService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,7 +1,7 @@
 package com.javierdesant.spring_sport_flow.infrastructure.config.security.filter;
 
 import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
-import com.javierdesant.spring_sport_flow.infrastructure.services.auth.JwtTokenService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.internal.JwtTokenService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

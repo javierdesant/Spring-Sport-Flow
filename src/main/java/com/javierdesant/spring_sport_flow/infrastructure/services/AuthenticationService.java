@@ -1,4 +1,4 @@
-package com.javierdesant.spring_sport_flow.infrastructure.services.auth;
+package com.javierdesant.spring_sport_flow.infrastructure.services;
 
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationRequest;
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationResponse;

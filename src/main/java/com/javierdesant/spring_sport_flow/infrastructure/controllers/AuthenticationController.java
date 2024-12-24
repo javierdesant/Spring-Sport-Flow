@@ -2,8 +2,8 @@ package com.javierdesant.spring_sport_flow.infrastructure.controllers;
 
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationRequest;
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationResponse;
-import com.javierdesant.spring_sport_flow.infrastructure.services.auth.AuthenticationServiceImpl;
-import com.javierdesant.spring_sport_flow.infrastructure.services.auth.TokenService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.internal.AuthenticationServiceImpl;
+import com.javierdesant.spring_sport_flow.infrastructure.services.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
