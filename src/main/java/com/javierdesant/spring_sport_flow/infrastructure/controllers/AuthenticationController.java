@@ -2,7 +2,8 @@ package com.javierdesant.spring_sport_flow.infrastructure.controllers;
 
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationRequest;
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationResponse;
-import com.javierdesant.spring_sport_flow.infrastructure.services.auth.AuthenticationService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.auth.AuthenticationServiceImpl;
+import com.javierdesant.spring_sport_flow.infrastructure.services.auth.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final AuthenticationServiceImpl authenticationService;
+    private final TokenService tokenService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationServiceImpl authenticationService, TokenService tokenService) {
         this.authenticationService = authenticationService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping("/validate-token")
     public ResponseEntity<Boolean> validate(@RequestParam String jwt) {
-        boolean isValidToken = authenticationService.validateToken(jwt);
+        boolean isValidToken = tokenService.validateToken(jwt);
         return ResponseEntity.ok(isValidToken);
     }
 
