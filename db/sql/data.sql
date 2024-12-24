@@ -3,26 +3,26 @@
 -- TODO!: update with encoded passwords
 
 INSERT INTO users (email, password)
-VALUES ('admin1@upm.es', 'securepass1'),
-       ('admin2@upm.es', 'securepass2'),
-       ('player1@alumnos.upm.es', 'securepass3'),
-       ('player2@alumnos.upm.es', 'securepass4'),
-       ('player3@alumnos.upm.es', 'securepass5'),
-       ('player4@alumnos.upm.es', 'securepass6'),
-       ('player5@alumnos.upm.es', 'securepass7'),
-       ('player6@alumnos.upm.es', 'securepass8');
+VALUES ('james.kirk@upm.es', 'securepass1'),
+       ('agent.smith@upm.es', 'securepass2'),
+       ('tyler.durden@alumnos.upm.es', 'securepass3'),
+       ('leia.organa@alumnos.upm.es', 'securepass4'),
+       ('ellen.ripley@alumnos.upm.es', 'securepass5'),
+       ('marty.mcfly@alumnos.upm.es', 'securepass6'),
+       ('forrest.gump@alumnos.upm.es', 'securepass7'),
+       ('luna.lovegood@alumnos.upm.es', 'securepass8');
 
 INSERT INTO administrators (user_id)
 VALUES (1),
        (2);
 
 INSERT INTO players (user_id, first_name, last_name, dni, admin_id)
-VALUES (3, 'John', 'Doe', '123456789A', 1),
-       (4, 'Jane', 'Smith', '987654321B', 2),
-       (5, 'Alice', 'Johnson', '876543210C', 1),
-       (6, 'Bob', 'Williams', '456789123D', 2),
-       (7, 'Charlie', 'Brown', '789123456E', 1),
-       (8, 'Emma', 'Davis', '321098765F', 1);
+VALUES (3, 'Tyler', 'Durden', '123456789A', 1),
+       (4, 'Leia', 'Organa', '987654321B', 2),
+       (5, 'Ellen', 'Ripley', '876543210C', 1),
+       (6, 'Marty', 'McFly', '456789123D', 2),
+       (7, 'Forrest', 'Gump', '789123456E', 1),
+       (8, 'Luna', 'Lovegood', '321098765F', 1);
 
 INSERT INTO categories (category_code, category_name)
 VALUES ('POINTS', 'Puntos marcados'),
