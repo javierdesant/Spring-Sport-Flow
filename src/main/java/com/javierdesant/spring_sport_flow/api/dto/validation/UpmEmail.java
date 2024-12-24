@@ -1,18 +1,21 @@
-package com.javierdesant.spring_sport_flow.utils.validation;
+package com.javierdesant.spring_sport_flow.api.dto.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import jakarta.validation.constraints.Email;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Email
+@Constraint(validatedBy = UpmEmailValidator.class)
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = AtLeastTwoValidator.class)
-public @interface AtLeastTwo {
-    String message() default "The set must contain at least two player IDs.";
+public @interface UpmEmail {
+
+    String message() default "The email must belong to an upm domain";
 
     Class<?>[] groups() default {};
 

@@ -1,4 +1,4 @@
-package com.javierdesant.spring_sport_flow.utils.validation;
+package com.javierdesant.spring_sport_flow.api.dto.validation;
 
 public class DefaultNationalIdValidator extends NationalIdValidator {
     @Override

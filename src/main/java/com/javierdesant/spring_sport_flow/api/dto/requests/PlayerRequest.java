@@ -1,6 +1,6 @@
 package com.javierdesant.spring_sport_flow.api.dto.requests;
 
-import com.javierdesant.spring_sport_flow.utils.validation.NationalId;
+import com.javierdesant.spring_sport_flow.api.dto.validation.NationalId;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;

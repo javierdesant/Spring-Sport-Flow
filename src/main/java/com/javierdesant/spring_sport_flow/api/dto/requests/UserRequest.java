@@ -1,6 +1,6 @@
 package com.javierdesant.spring_sport_flow.api.dto.requests;
 
-import com.javierdesant.spring_sport_flow.utils.validation.UpmEmail;
+import com.javierdesant.spring_sport_flow.api.dto.validation.UpmEmail;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
