@@ -38,7 +38,7 @@ public class PlayerEntity extends UserEntity {
     private Set<TeamEntity> teams;
 
     @Override
-    protected Role getRole() {
+    public Role getRole() {
         return Role.PLAYER;
     }
 

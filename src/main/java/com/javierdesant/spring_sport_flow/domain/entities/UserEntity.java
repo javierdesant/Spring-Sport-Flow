@@ -45,5 +45,5 @@ public abstract class UserEntity implements UserDetails, Serializable {
                 .toList();
     }
 
-    protected abstract Role getRole();
+    public abstract Role getRole();
 }

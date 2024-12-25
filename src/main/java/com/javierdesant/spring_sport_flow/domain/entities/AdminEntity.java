@@ -23,7 +23,7 @@ public class AdminEntity extends UserEntity {
     private Set<TeamEntity> managedTeams;
 
     @Override
-    protected Role getRole() {
+    public Role getRole() {
         return Role.ADMIN;
     }
 
