@@ -1,6 +1,7 @@
 package com.javierdesant.spring_sport_flow.infrastructure.config.security;
 
 import com.javierdesant.spring_sport_flow.domain.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,13 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@AllArgsConstructor
 public class SecurityBeansInjector {
 
     private final UserRepository userRepository;
-
-    public SecurityBeansInjector(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -45,8 +43,8 @@ public class SecurityBeansInjector {
         return this::loadUserByEmail;
     }
 
-    private UserDetails loadUserByEmail(String email) {
-        return userRepository.findByEmail(email)
+    private UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        return userRepository.findByUsername(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
     }
 }

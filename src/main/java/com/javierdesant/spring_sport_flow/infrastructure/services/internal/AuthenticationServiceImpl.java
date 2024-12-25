@@ -6,9 +6,12 @@ import com.javierdesant.spring_sport_flow.api.dto.mappers.PlayerMapper;
 import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
+import com.javierdesant.spring_sport_flow.domain.entities.UserEntity;
 import com.javierdesant.spring_sport_flow.infrastructure.services.AuthenticationService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.TokenService;
+import com.javierdesant.spring_sport_flow.infrastructure.services.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,20 +24,14 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final PlayerService playerService;
     private final TokenService tokenService;
     private final PlayerMapper playerMapper;
     private final AuthenticationManager authenticationManager;
-
-    public AuthenticationServiceImpl(PlayerService playerService, TokenService tokenService,
-                                     PlayerMapper playerMapper, AuthenticationManager authenticationManager) {
-        this.playerService = playerService;
-        this.tokenService = tokenService;
-        this.playerMapper = playerMapper;
-        this.authenticationManager = authenticationManager;
-    }
+    private final UserService userService;
 
     @Override
     public PlayerResponse register(PlayerRequest request) {
@@ -47,11 +44,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return response;
     }
 
-    private Map<String, Object> buildExtraClaims(PlayerEntity player) {
+    private Map<String, Object> buildExtraClaims(UserEntity user) {
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("name", player.getFullName());
-        extraClaims.put("authorities", player.getAuthorities());
-        extraClaims.put("role", player.getRole());
+        extraClaims.put("email", user.getEmail());
+        extraClaims.put("authorities", user.getAuthorities());
+        extraClaims.put("role", user.getRole());
         return extraClaims;
     }
 
@@ -63,9 +60,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         authenticationManager.authenticate(authentication);
 
-        PlayerEntity player = playerService.findOneByUsername(request.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Player not found"));
-        String jwt = tokenService.generateToken(player, buildExtraClaims(player));
+        UserEntity user = userService.findOneByUsername(request.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        String jwt = tokenService.generateToken(user, buildExtraClaims(user));
 
         return new AuthenticationResponse(jwt);
     }
