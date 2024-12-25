@@ -7,10 +7,10 @@ import com.javierdesant.spring_sport_flow.api.dto.requests.PlayerRequest;
 import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.UserEntity;
+import com.javierdesant.spring_sport_flow.domain.repositories.UserRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.AuthenticationService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.TokenService;
-import com.javierdesant.spring_sport_flow.infrastructure.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final TokenService tokenService;
     private final PlayerMapper playerMapper;
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public PlayerResponse register(PlayerRequest request) {
@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         authenticationManager.authenticate(authentication);
 
-        UserEntity user = userService.findOneByUsername(request.getUsername())
+        UserEntity user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         String jwt = tokenService.generateToken(user, buildExtraClaims(user));
 
