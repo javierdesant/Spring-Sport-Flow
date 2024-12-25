@@ -39,7 +39,7 @@ public class PlayerEntity extends UserEntity {
 
     @Override
     protected Role getRole() {
-        return Role.ADMIN;
+        return Role.PLAYER;
     }
 
     @Override
