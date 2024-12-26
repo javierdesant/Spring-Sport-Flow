@@ -184,7 +184,7 @@ Para el control y acceso seguro:
 Desarrollado y mantenido por **Javier de Santiago**.
 
 - **Email**: [javier.desantiago@alumnos.upm.es](mailto:javier.desantiago@alumnos.upm.es)
-- **GitHub**: [Visítame aquí](https://github.com/tu-usuario)
+- **GitHub**: [Visítame aquí](https://github.com/javierdesant)
 
 ### Profesor
 
