@@ -2,6 +2,7 @@ package com.javierdesant.spring_sport_flow.infrastructure.controllers;
 
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationRequest;
 import com.javierdesant.spring_sport_flow.api.dto.auth.AuthenticationResponse;
+import com.javierdesant.spring_sport_flow.domain.entities.UserEntity;
 import com.javierdesant.spring_sport_flow.infrastructure.services.TokenService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.internal.AuthenticationServiceImpl;
 import jakarta.validation.Valid;
@@ -29,5 +30,11 @@ public class AuthenticationController {
 
         AuthenticationResponse response = authenticationService.login(request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserEntity> findMyProfile() {
+        UserEntity user = authenticationService.findLoggedInUser();
+        return ResponseEntity.ok(user);
     }
 }

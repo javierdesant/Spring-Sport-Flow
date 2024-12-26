@@ -16,11 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -65,5 +67,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String jwt = tokenService.generateToken(user, buildExtraClaims(user));
 
         return new AuthenticationResponse(jwt);
+    }
+
+    @Override
+    public UserEntity findLoggedInUser() {
+        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        String email = (String) auth.getPrincipal();
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        assert user.isPresent();
+
+        return user.get();
     }
 }

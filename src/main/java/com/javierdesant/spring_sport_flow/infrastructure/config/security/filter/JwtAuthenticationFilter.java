@@ -11,6 +11,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,24 +29,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+
+        if (!isHeaderValid(authorizationHeader)) {
             filterChain.doFilter(request, response);
+            return;
         }
 
-        assert authorizationHeader != null;
-        String jwt = authorizationHeader.split(" ")[1];
-
+        String jwt = this.extractJwt(authorizationHeader);
         String username = jwtTokenService.extractUsername(jwt);
 
-        UserDetails userDetails = playerService.findOneByUsername(username)
-                .orElseThrow(EntityNotFoundException::new);
-
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                username, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+        UserDetails userDetails = this.fetchUserDetails(username);
+        this.authenticateUser(request, userDetails);
 
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isHeaderValid(String authorizationHeader) {
+        return authorizationHeader != null && authorizationHeader.startsWith("Bearer ");
+    }
+
+    private String extractJwt(String authorizationHeader) {
+        return authorizationHeader.split(" ")[1];
+    }
+
+    private UserDetails fetchUserDetails(String username) {
+        return playerService.findOneByUsername(username)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    private void authenticateUser(HttpServletRequest request, UserDetails userDetails) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                userDetails.getUsername(), null, userDetails.getAuthorities()
+        );
+        authToken.setDetails(new WebAuthenticationDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }
