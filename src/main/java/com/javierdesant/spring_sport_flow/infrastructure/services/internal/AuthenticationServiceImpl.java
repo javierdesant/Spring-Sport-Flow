@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         authenticationManager.authenticate(authentication);
 
-        UserEntity user = userRepository.findByUsername(request.getUsername())
+        UserEntity user = userRepository.findByEmail(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         String jwt = tokenService.generateToken(user, buildExtraClaims(user));
 

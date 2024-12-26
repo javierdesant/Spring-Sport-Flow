@@ -44,7 +44,7 @@ public class SecurityBeansInjector {
     }
 
     private UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        return userRepository.findByUsername(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
     }
 }
