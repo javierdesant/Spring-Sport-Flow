@@ -8,24 +8,15 @@ import java.util.List;
 public enum Role {
 
     ADMIN(List.of(
-            RolePermission.VIEW_TOURNAMENTS,
-            RolePermission.CREATE_PLAYER,
-            RolePermission.DELETE_PLAYER,
-            RolePermission.CREATE_TEAM,
-            RolePermission.DELETE_TEAM,
-            RolePermission.ADD_PLAYER_TO_TEAM,
-            RolePermission.REMOVE_PLAYER_FROM_TEAM,
-            RolePermission.CREATE_TOURNAMENT,
-            RolePermission.DELETE_TOURNAMENT,
-            RolePermission.RUN_MATCHMAKING,
-            RolePermission.VIEW_TOURNAMENTS_WITH_RANKINGS
+            RolePermission.MANAGE_PLAYERS,
+            RolePermission.MANAGE_TEAMS,
+            RolePermission.MANAGE_TOURNAMENTS,
+            RolePermission.RUN_MATCHMAKING
     )),
 
     PLAYER(List.of(
-            RolePermission.VIEW_TOURNAMENTS,
-            RolePermission.JOIN_TOURNAMENT,
-            RolePermission.LEAVE_TOURNAMENT,
-            RolePermission.VIEW_PLAYER_STATS
+            RolePermission.JOIN_TOURNAMENTS,
+            RolePermission.MANAGE_PERSONAL_ACCOUNT
     ));
 
     private final List<RolePermission> permissions;
