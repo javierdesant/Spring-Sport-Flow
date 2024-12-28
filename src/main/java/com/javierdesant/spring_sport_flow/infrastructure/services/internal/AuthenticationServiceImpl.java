@@ -38,12 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public PlayerResponse register(PlayerRequest request) {
         PlayerEntity player = playerService.create(request);
-        String jwt = tokenService.generateToken(player, buildExtraClaims(player));
-
-        PlayerResponse response = playerMapper.toPlayerResponse(player);
-        response.setJwt(jwt);
-
-        return response;
+        return playerMapper.toPlayerResponse(player);
     }
 
     private Map<String, Object> buildExtraClaims(UserEntity user) {
