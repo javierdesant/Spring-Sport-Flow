@@ -22,6 +22,12 @@ public class JwtTokenService implements TokenService {
     @Value("${security.jwt.expiration-in-minutes}")
     private Long EXPIRATION_IN_MINUTES;
 
+    private final JwtKeyProvider jwtKeyProvider;
+
+    public JwtTokenService(JwtKeyProvider jwtKeyProvider) {
+        this.jwtKeyProvider = jwtKeyProvider;
+    }
+
     @Override
     public String generateToken(UserDetails user, Map<String, Object> extraClaims) {
         Date issuedAt = new Date(System.currentTimeMillis());
@@ -33,7 +39,7 @@ public class JwtTokenService implements TokenService {
                 .issuedAt(issuedAt)
                 .expiration(expirationDate)
                 .header().add("typ", "JWT").and()
-                .signWith(JwtKeyProvider.getSigningKey())
+                .signWith(jwtKeyProvider.getSigningKey())
                 .compact();
     }
 
@@ -49,20 +55,20 @@ public class JwtTokenService implements TokenService {
 
             Date expirationDate = claims.getExpiration();
             if (expirationDate.before(new Date())) {
-                log.info("El token ha caducado");
+                log.info("The token has expired");
                 return false;
             }
 
             return true;
         } catch (Exception ex) {
-            log.error("Error al validar el token: {}", ex.getMessage());
+            log.error("Error validating the token: {}", ex.getMessage());
             return false;
         }
     }
 
     private Claims extractAllClaims(String jwt) throws JwtException {
         return Jwts.parser()
-                .verifyWith(JwtKeyProvider.getSigningKey())
+                .verifyWith(jwtKeyProvider.getSigningKey())
                 .build()
                 .parseSignedClaims(jwt)
                 .getPayload();
