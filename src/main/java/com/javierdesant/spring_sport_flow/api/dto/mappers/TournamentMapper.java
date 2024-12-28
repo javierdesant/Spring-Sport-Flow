@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {LeagueMapper.class, SportMapper.class, CategoryMapper.class})
 public interface TournamentMapper {
-    TournamentResponse toResponse(TournamentEntity entity);
+    TournamentResponse toTournamentResponse(TournamentEntity entity);
 }

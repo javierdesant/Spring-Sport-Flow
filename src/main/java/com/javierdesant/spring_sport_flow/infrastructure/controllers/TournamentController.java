@@ -21,20 +21,20 @@ public class TournamentController {
 
     @PostMapping
     public ResponseEntity<TournamentResponse> post(@Valid @RequestBody TournamentRequest request) {
-        TournamentResponse response = tournamentMapper.toResponse(tournamentService.create(request));
+        TournamentResponse response = tournamentMapper.toTournamentResponse(tournamentService.create(request));
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TournamentResponse> getOne(@PathVariable Long id) {
-        TournamentResponse response = tournamentMapper.toResponse(tournamentService.read(id));
+        TournamentResponse response = tournamentMapper.toTournamentResponse(tournamentService.read(id));
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<Page<TournamentResponse>> getAll(@PageableDefault Pageable pageable) {
         Page<TournamentResponse> responsePage = tournamentService.listAll(pageable)
-                .map(tournamentMapper::toResponse);
+                .map(tournamentMapper::toTournamentResponse);
         return ResponseEntity.ok(responsePage);
     }
 
