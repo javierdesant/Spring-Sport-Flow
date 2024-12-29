@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder(toBuilder = true)
 public abstract class UserEntity implements UserDetails, Serializable {
+
+    private static final String ROLE_PREFIX = "ROLE_";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +42,13 @@ public abstract class UserEntity implements UserDetails, Serializable {
         List<RolePermission> permissions = role.getPermissions();
         assert permissions != null;
 
-        return permissions.stream()
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>(permissions.stream()
                 .map(Enum::name)
                 .map(SimpleGrantedAuthority::new)
-                .toList();
+                .toList());
+
+        authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.name()));
+        return authorities;
     }
 
     public abstract Role getRole();

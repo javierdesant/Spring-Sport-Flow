@@ -1,7 +1,7 @@
 package com.javierdesant.spring_sport_flow.infrastructure.config.security;
 
 import com.javierdesant.spring_sport_flow.infrastructure.config.security.filter.JwtAuthenticationFilter;
-import com.javierdesant.spring_sport_flow.utils.RolePermission;
+import com.javierdesant.spring_sport_flow.utils.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -51,31 +51,31 @@ public class HttpSecurityConfig {
     }
 
     private void configurePlayerEndpoints(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-        authReqConfig.requestMatchers(HttpMethod.POST, "/players").hasAuthority(RolePermission.MANAGE_PLAYERS.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/players/{playerId}").hasAuthority(RolePermission.MANAGE_PLAYERS.name());
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/players/{playerId}/stats").hasAuthority(RolePermission.MANAGE_PLAYERS.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/players").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/players/{playerId}").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/players/{playerId}/stats").hasRole(Role.ADMIN.name());
     }
 
     private void configureTeamEndpoints(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-        authReqConfig.requestMatchers(HttpMethod.POST, "/teams").hasAuthority(RolePermission.MANAGE_TEAMS.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/teams/{teamId}").hasAuthority(RolePermission.MANAGE_TEAMS.name());
-        authReqConfig.requestMatchers(HttpMethod.POST, "/teams/{teamId}/members").hasAuthority(RolePermission.MANAGE_TEAMS.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/teams/{teamId}/members/{playerId}").hasAuthority(RolePermission.MANAGE_TEAMS.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/teams").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/teams/{teamId}").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/teams/{teamId}/members").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/teams/{teamId}/members/{playerId}").hasRole(Role.ADMIN.name());
     }
 
     private void configureTournamentEndpoints(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-        authReqConfig.requestMatchers(HttpMethod.POST, "/tournaments").hasAuthority(RolePermission.MANAGE_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournaments/{tournamentId}").hasAuthority(RolePermission.MANAGE_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.POST, "/tournaments/{tournamentId}/matches/randomize").hasAuthority(RolePermission.MANAGE_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.POST, "/tournaments/{tournamentId}/matches").hasAuthority(RolePermission.MANAGE_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/tournaments/{tournamentId}/matches/{matchId}").hasAuthority(RolePermission.MANAGE_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournaments/{tournamentId}/matches/{matchId}").hasAuthority(RolePermission.MANAGE_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.POST, "/tournament/{tournamentId}/join").hasAuthority(RolePermission.JOIN_TOURNAMENTS.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournament/{tournamentId}/leave").hasAuthority(RolePermission.JOIN_TOURNAMENTS.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/tournaments").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournaments/{tournamentId}").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/tournaments/{tournamentId}/matches/randomize").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/tournaments/{tournamentId}/matches").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/tournaments/{tournamentId}/matches/{matchId}").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournaments/{tournamentId}/matches/{matchId}").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/tournament/{tournamentId}/join").hasRole(Role.PLAYER.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournament/{tournamentId}/leave").hasRole(Role.PLAYER.name());
     }
 
     private void configurePersonalAccountEndpoints(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-        authReqConfig.requestMatchers(HttpMethod.GET, "/players/me/**").hasAuthority(RolePermission.MANAGE_PERSONAL_ACCOUNT.name());
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/players/me").hasAuthority(RolePermission.MANAGE_PERSONAL_ACCOUNT.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/players/me/**").hasRole(Role.PLAYER.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/players/me").hasRole(Role.PLAYER.name());
     }
 }
