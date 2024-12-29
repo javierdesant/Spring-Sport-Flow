@@ -39,7 +39,6 @@ public class HttpSecurityConfig {
         this.configurePlayerEndpoints(authReqConfig);
         this.configureTeamEndpoints(authReqConfig);
         this.configureTournamentEndpoints(authReqConfig);
-        this.configurePersonalAccountEndpoints(authReqConfig);
 
         authReqConfig.anyRequest().authenticated();
     }
@@ -54,6 +53,9 @@ public class HttpSecurityConfig {
         authReqConfig.requestMatchers(HttpMethod.POST, "/players").hasRole(Role.ADMIN.name());
         authReqConfig.requestMatchers(HttpMethod.DELETE, "/players/{playerId}").hasRole(Role.ADMIN.name());
         authReqConfig.requestMatchers(HttpMethod.PUT, "/players/{playerId}/stats").hasRole(Role.ADMIN.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/players/me/**").hasRole(Role.PLAYER.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/players/me").hasRole(Role.PLAYER.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/players/**").hasRole(Role.ADMIN.name());
     }
 
     private void configureTeamEndpoints(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
@@ -72,10 +74,5 @@ public class HttpSecurityConfig {
         authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournaments/{tournamentId}/matches/{matchId}").hasRole(Role.ADMIN.name());
         authReqConfig.requestMatchers(HttpMethod.POST, "/tournament/{tournamentId}/join").hasRole(Role.PLAYER.name());
         authReqConfig.requestMatchers(HttpMethod.DELETE, "/tournament/{tournamentId}/leave").hasRole(Role.PLAYER.name());
-    }
-
-    private void configurePersonalAccountEndpoints(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-        authReqConfig.requestMatchers(HttpMethod.GET, "/players/me/**").hasRole(Role.PLAYER.name());
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/players/me").hasRole(Role.PLAYER.name());
     }
 }
