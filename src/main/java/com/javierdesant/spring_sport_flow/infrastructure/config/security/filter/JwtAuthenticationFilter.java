@@ -1,6 +1,6 @@
 package com.javierdesant.spring_sport_flow.infrastructure.config.security.filter;
 
-import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
+import com.javierdesant.spring_sport_flow.domain.repositories.UserRepository;
 import com.javierdesant.spring_sport_flow.infrastructure.services.internal.JwtTokenService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenService jwtTokenService;
-    private final PlayerService playerService;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -50,8 +50,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return authorizationHeader.split(" ")[1];
     }
 
-    private UserDetails fetchUserDetails(String username) {
-        return playerService.findOneByUsername(username)
+    private UserDetails fetchUserDetails(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
