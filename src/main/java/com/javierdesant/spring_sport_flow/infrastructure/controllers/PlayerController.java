@@ -6,6 +6,8 @@ import com.javierdesant.spring_sport_flow.api.dto.responses.PlayerResponse;
 import com.javierdesant.spring_sport_flow.domain.entities.AdminEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import com.javierdesant.spring_sport_flow.domain.entities.UserEntity;
+import com.javierdesant.spring_sport_flow.infrastructure.config.security.annotations.IsAdmin;
+import com.javierdesant.spring_sport_flow.infrastructure.config.security.annotations.IsPlayer;
 import com.javierdesant.spring_sport_flow.infrastructure.services.AuthenticationService;
 import com.javierdesant.spring_sport_flow.infrastructure.services.PlayerService;
 import jakarta.validation.Valid;
@@ -22,12 +24,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/players")
 @AllArgsConstructor
 public class PlayerController {
-
     private final AuthenticationService authenticationService;
     private final PlayerMapper playerMapper;
     private final PlayerService playerService;
 
     @PostMapping
+    @IsAdmin
     public ResponseEntity<PlayerResponse> register(@AuthenticationPrincipal AdminEntity admin,
                                                    @RequestBody @Valid PlayerRequest request) {
         request.setAdminId(admin.getUserId());
@@ -36,6 +38,7 @@ public class PlayerController {
     }
 
     @GetMapping("/me")
+    @IsPlayer
     public ResponseEntity<PlayerResponse> profile() {
         UserEntity user = authenticationService.findLoggedInUser();
         if (user instanceof PlayerEntity player) {
@@ -47,6 +50,7 @@ public class PlayerController {
     }
 
     @GetMapping
+    @IsAdmin
     public ResponseEntity<Page<PlayerResponse>> getAll(@PageableDefault Pageable pageable) {
         Page<PlayerResponse> responsePage = playerService.listAll(pageable)
                 .map(playerMapper::toPlayerResponse);
