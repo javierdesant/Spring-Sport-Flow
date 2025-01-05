@@ -27,7 +27,6 @@ public class PlayerServiceImpl implements PlayerService {
         this.validatePasswords(request);
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        // TODO: add .adminId() on register
         PlayerEntity playerToRegister = PlayerEntity.builder()
                 .dni(request.getDni())
                 .firstName(request.getFirstName())

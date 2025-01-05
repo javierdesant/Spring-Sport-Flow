@@ -24,4 +24,6 @@ public class PlayerRequest extends UserRequest {
     @NationalId(country = "ES")
     private String dni;
 
+    private Long adminId;
+
 }

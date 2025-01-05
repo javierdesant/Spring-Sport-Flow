@@ -22,4 +22,6 @@ public class TeamRequest implements Serializable {
     @AtLeastTwo
     private Set<Long> playerIds;
 
+    private Long adminId;
+
 }
