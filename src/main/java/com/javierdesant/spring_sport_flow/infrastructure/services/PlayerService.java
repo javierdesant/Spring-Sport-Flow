@@ -5,10 +5,6 @@ import com.javierdesant.spring_sport_flow.domain.entities.PlayerEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 public interface PlayerService extends CrudService<PlayerRequest, PlayerEntity, Long> {
-    Optional<PlayerEntity> findOneByUsername(String username);
-
     Page<PlayerEntity> listAll(Pageable pageable);
 }
