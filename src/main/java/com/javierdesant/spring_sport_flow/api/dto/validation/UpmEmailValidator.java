@@ -19,7 +19,7 @@ public class UpmEmailValidator implements ConstraintValidator<UpmEmail, String> 
     @Getter
     private enum UpmEmailDomain {
         UPM_ES("@upm.es"),
-        UPM_ALUMNOS_ES("@upm.alumnos.es");
+        UPM_ALUMNOS_ES("@alumnos.upm.es");
 
         private final String suffix;
 
