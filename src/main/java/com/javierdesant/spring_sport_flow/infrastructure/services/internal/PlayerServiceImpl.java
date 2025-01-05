@@ -8,6 +8,8 @@ import com.javierdesant.spring_sport_flow.infrastructure.services.exceptions.Inv
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +72,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Optional<PlayerEntity> findOneByUsername(String email) {
         return playerRepository.findByEmail(email);
+    }
+
+    @Override
+    public Page<PlayerEntity> listAll(Pageable pageable) {
+        return playerRepository.findAll(pageable);
     }
 }

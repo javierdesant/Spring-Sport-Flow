@@ -45,4 +45,11 @@ public class PlayerController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping
+    public ResponseEntity<Page<PlayerResponse>> getAll(@PageableDefault Pageable pageable) {
+        Page<PlayerResponse> responsePage = playerService.listAll(pageable)
+                .map(playerMapper::toPlayerResponse);
+        return ResponseEntity.ok(responsePage);
+    }
 }
